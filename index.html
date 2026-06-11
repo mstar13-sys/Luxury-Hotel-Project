@@ -16,6 +16,7 @@
   <meta property="og:description" content="Luxury rooms, suites, spa, dining and secure booking." />
 
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/animations.css" />
 
   <script>
     // Preconnect improves perceived load time for common image hosts.
@@ -58,13 +59,13 @@
           </svg>
         </button>
 
-        <a class="btn btn--primary" href="#book" aria-label="Book now">
+        <button class="btn btn--primary" type="button" data-open-booking aria-label="Book now">
           <span>Book Now</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M8 7h11v14H5V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             <path d="M8 7V4h3l-1 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-        </a>
+        </button>
       </div>
     </div>
 
@@ -85,35 +86,41 @@
     <section id="home" class="hero" aria-label="Hero">
       <div class="hero__bg" aria-hidden="true"></div>
 
+      <!-- Ambient decorative orbs -->
+      <div class="hero-orb hero-orb--1" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb--2" aria-hidden="true"></div>
+
       <div class="container hero__content">
         <div class="hero-grid">
+
+          <!-- Left: headline + CTAs -->
           <div>
             <div class="badge" data-animate>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7z" stroke="currentColor" stroke-width="2"/>
               </svg>
-              <span>Luxury stays with thoughtful hospitality</span>
+              <span>Award-winning hospitality since 2006</span>
             </div>
 
-            <h1 data-animate>Experience Luxury Beyond Expectations</h1>
+            <h1 data-animate>Experience Luxury<br>Beyond Expectations</h1>
             <p data-animate>
-              Comfort. Elegance. Hospitality crafted for discerning travelers—featuring premium suites, refined dining,
-              and discreet service from arrival to departure.
+              Comfort. Elegance. Hospitality crafted for discerning travelers — premium suites,
+              refined dining, and discreet service from arrival to departure.
             </p>
 
             <div class="hero__ctas" data-animate>
-              <a class="btn btn--primary" href="#book">
+              <button class="btn btn--primary btn--book-cta" type="button" data-open-booking aria-label="Open booking form">
                 Book Your Stay
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 7h11v14H5V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M8 7V4h3l-1 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-              </a>
+              </button>
               <a class="btn btn--ghost" href="#rooms">
                 Explore Rooms
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                   <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </a>
             </div>
@@ -122,64 +129,67 @@
               <span class="dot" aria-hidden="true"></span>
               <span>
                 <strong style="color: var(--gold2);">Direct booking</strong> · Transparent pricing ·
-                Fast confirmations · Accessibility-friendly experience.
+                Confirmed within 2 hours · Best-rate guarantee.
               </span>
             </div>
           </div>
 
-          <aside id="book" class="form-card" data-animate aria-label="Quick booking form">
-            <div class="form-card__title">
-              <h3>Check availability</h3>
-              <span class="badge" style="padding:8px 12px;">Best rate guarantee</span>
+          <!-- Right: "Book Your Stay" quick-entry card -->
+          <aside id="book" class="hero-book-card" data-animate aria-label="Quick booking entry">
+            <div class="hero-book-card__title">
+              <h3>Plan Your Stay</h3>
+              <span class="badge" style="padding:8px 12px; font-size:12px;">Best rate guarantee</span>
             </div>
 
-            <form id="bookingForm" class="form" style="border:0; padding:0; background:transparent;">
-              <div class="form-grid" style="margin-top:0;">
-                <div class="field">
-                  <span class="label">Check-in Date</span>
-                  <input class="input" type="date" name="checkin" required />
-                </div>
-                <div class="field">
-                  <span class="label">Check-out Date</span>
-                  <input class="input" type="date" name="checkout" required />
-                </div>
-                <div class="field" style="grid-column:1 / -1;">
-                  <span class="label">Guests</span>
-                  <select class="input" name="guests" aria-label="Number of guests">
-                    <option value="1">1 Guest</option>
-                    <option value="2">2 Guests</option>
-                    <option value="3">3 Guests</option>
-                    <option value="4">4 Guests</option>
-                  </select>
-                </div>
-
-                <div class="form-actions">
-                  <button class="btn btn--primary" type="submit">
-                    Search Availability
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" stroke="currentColor" stroke-width="2"/>
-                      <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                  </button>
-                </div>
+            <div class="hero-date-row">
+              <div class="field">
+                <span class="label">Check-in</span>
+                <input class="input" type="date" id="hero_checkin" aria-label="Check-in date"/>
               </div>
-
-              <div class="hero__note">
-                <span class="dot" aria-hidden="true"></span>
-                <span>We’ll show curated room options and best-rate offers instantly.</span>
+              <div class="field">
+                <span class="label">Check-out</span>
+                <input class="input" type="date" id="hero_checkout" aria-label="Check-out date"/>
               </div>
-            </form>
+            </div>
 
-            <div id="bookingToast" class="toast" aria-live="polite" role="status" style="margin-top:12px;
-              color: var(--beige);
-              padding: 10px 12px; border-radius: 14px; border:1px solid rgba(214,178,94,.35); background: rgba(214,178,94,.10);
-              font-weight:700;"></div>
+            <div class="hero-guests-row">
+              <div class="field">
+                <span class="label">Guests</span>
+                <select class="input" id="hero_guests" aria-label="Number of guests">
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                </select>
+              </div>
+            </div>
 
-            <style>
-              /* Small toast helper (kept here to avoid extra files changes) */
-              .toast--show{display:block;}
-            </style>
+            <button class="btn btn--primary btn--book-cta" type="button" data-open-booking
+              style="width:100%; justify-content:center; font-size:15px; padding:15px 18px;">
+              Book Now
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;">
+              <div style="padding:10px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.14); text-align:center;">
+                <div style="font-size:18px; font-weight:900; color:var(--gold2);">4.9★</div>
+                <div style="font-size:11px; color:rgba(251,246,238,.60); margin-top:2px;">Guest Rating</div>
+              </div>
+              <div style="padding:10px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.14); text-align:center;">
+                <div style="font-size:18px; font-weight:900; color:var(--gold2);">2h</div>
+                <div style="font-size:11px; color:rgba(251,246,238,.60); margin-top:2px;">Confirmation</div>
+              </div>
+            </div>
+
+            <div class="hero__note" style="margin-top:12px;">
+              <span class="dot" aria-hidden="true"></span>
+              <span>No payment required. Our team will contact you within 2 hours to finalize.</span>
+            </div>
           </aside>
+
         </div>
       </div>
     </section>
@@ -949,13 +959,13 @@
 
   <!-- Sticky booking CTA -->
   <div class="sticky-book" aria-hidden="true">
-    <a class="btn btn--primary" href="#book">
+    <button class="btn btn--primary" type="button" data-open-booking>
       Book Now
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-    </a>
+    </button>
   </div>
 
   <!-- Live chat widget -->
@@ -992,132 +1002,13 @@
   </div>
 
   <!-- Toast container (used by booking form) -->
+  <!-- Toast container -->
   <div class="toast" aria-live="polite" role="status" style="display:none;"></div>
 
+  <!-- JS: load order matters — animations & booking can use globals from main -->
   <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/booking.js"></script>
 
-  <script>
-    // Small extras: testimonials prev/next, contact/newsletter handlers, chat widget bridging.
-    (function(){
-      const yearEl = document.getElementById('year');
-      if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-      const contactForm = document.getElementById('contactForm');
-      if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const data = Object.fromEntries(new FormData(contactForm).entries());
-          const toast = document.querySelector('.toast');
-          if (toast) {
-            toast.textContent = `Message sent. Thank you, ${data.name || 'guest'}!`;
-            toast.style.display = 'block';
-            toast.style.position = 'fixed';
-            toast.style.left = '50%';
-            toast.style.transform = 'translateX(-50%)';
-            toast.style.bottom = '18px';
-            toast.style.padding = '12px 14px';
-            toast.style.zIndex = '999';
-            toast.style.borderRadius = '16px';
-            toast.style.border = '1px solid rgba(214,178,94,.35)';
-            toast.style.background = 'rgba(214,178,94,.10)';
-            toast.style.color = 'var(--beige)';
-            toast.style.fontWeight = '800';
-            window.setTimeout(() => {
-              toast.style.display = 'none';
-            }, 3200);
-          }
-          contactForm.reset();
-        });
-      }
-
-      const newsletterForm = document.getElementById('newsletterForm');
-      if (newsletterForm) {
-        newsletterForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          newsletterForm.reset();
-          const toast = document.querySelector('.toast');
-          if (toast) {
-            toast.textContent = 'Subscribed successfully. Welcome to premium updates!';
-            toast.style.display = 'block';
-            toast.style.position = 'fixed';
-            toast.style.left = '50%';
-            toast.style.transform = 'translateX(-50%)';
-            toast.style.bottom = '18px';
-            toast.style.padding = '12px 14px';
-            toast.style.zIndex = '999';
-            toast.style.borderRadius = '16px';
-            toast.style.border = '1px solid rgba(214,178,94,.35)';
-            toast.style.background = 'rgba(214,178,94,.10)';
-            toast.style.color = 'var(--beige)';
-            toast.style.fontWeight = '800';
-            window.setTimeout(() => {
-              toast.style.display = 'none';
-            }, 3200);
-          }
-        });
-      }
-
-      // Better prev/next controls for testimonials
-      const track = document.querySelector('[data-carousel-track]');
-      const slides = Array.from(document.querySelectorAll('.tslide'));
-      const dotBtns = Array.from(document.querySelectorAll('.dotbtn[data-index]'));
-      const applyIndex = (idx) => {
-        if (!track || !slides.length) return;
-        const index = ((idx % slides.length) + slides.length) % slides.length;
-        track.style.transform = `translateX(-${index * 100}%)`;
-        for (const b of dotBtns) {
-          const di = Number(b.getAttribute('data-index'));
-          b.classList.toggle('dotbtn--active', di === index);
-        }
-      };
-      let current = 0;
-      window.__prevTestimonial = () => { current -= 1; applyIndex(current); };
-      window.__nextTestimonial = () => { current += 1; applyIndex(current); };
-      // Initialize dots
-      if (dotBtns.length) {
-        dotBtns.forEach(b => b.classList.remove('dotbtn--active'));
-        dotBtns[0].classList.add('dotbtn--active');
-      }
-
-      // Chat bridging: open panel from any button
-      const openBtns = document.querySelectorAll('[data-chat="1"], [data-open-chat]');
-      const chatBtn = document.querySelector('[data-chat-toggle]');
-      const panel = document.querySelector('.chat-panel');
-      const openPanel = () => panel && panel.classList.add('chat-panel--open');
-      const closePanel = () => panel && panel.classList.remove('chat-panel--open');
-
-      openBtns.forEach(btn => btn.addEventListener('click', openPanel));
-      if (chatBtn) chatBtn.addEventListener('click', () => {
-        if (!panel) return;
-        panel.classList.toggle('chat-panel--open');
-      });
-
-      const close1 = document.querySelector('.chat-close');
-      const close2 = document.querySelector('[data-chat-close]');
-      if (close1) close1.addEventListener('click', closePanel);
-      if (close2) close2.addEventListener('click', closePanel);
-
-      const scheduleBtns = document.querySelectorAll('[data-schedule]');
-      scheduleBtns.forEach(b => b.addEventListener('click', () => {
-        const toast = document.querySelector('.toast');
-        if (toast) {
-          toast.textContent = 'Schedule availability saved. Chat to confirm a time.';
-          toast.style.display = 'block';
-          toast.style.position = 'fixed';
-          toast.style.left = '50%';
-          toast.style.transform = 'translateX(-50%)';
-          toast.style.bottom = '18px';
-          toast.style.padding = '12px 14px';
-          toast.style.zIndex = '999';
-          toast.style.borderRadius = '16px';
-          toast.style.border = '1px solid rgba(214,178,94,.35)';
-          toast.style.background = 'rgba(214,178,94,.10)';
-          toast.style.color = 'var(--beige)';
-          toast.style.fontWeight = '800';
-          window.setTimeout(() => { toast.style.display = 'none'; }, 3200);
-        }
-      }));
-    })();
-  </script>
 </body>
 </html>

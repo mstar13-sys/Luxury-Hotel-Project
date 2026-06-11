@@ -1,4 +1,13 @@
-/* Luxury Hotel Landing Page - main.js */
+/**
+ * main.js — Luxury Hotel
+ * ─────────────────────────────────────────────────────────────
+ * Core UI: navigation, sticky bar, lightbox, carousel,
+ * FAQ accordion, live-chat widget, forms & toasts.
+ *
+ * Animation logic lives in  js/animations.js
+ * Booking modal logic lives in js/booking.js
+ * ─────────────────────────────────────────────────────────────
+ */
 
 (function () {
   'use strict';
@@ -6,12 +15,68 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  // ─── Sticky nav shadow + active link highlighting ───
-  const nav = $('.nav');
-  const links = $$('.nav__link[data-target]');
-  const sections = links
-    .map((l) => $(l.getAttribute('data-target')))
-    .filter(Boolean);
+
+  /* ─────────────────────────────────────────────────────────
+     TOAST HELPER  (shared across all form submissions)
+  ───────────────────────────────────────────────────────── */
+
+  function showToast(msg, duration = 3400) {
+    let toast = $('#globalToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'globalToast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      Object.assign(toast.style, {
+        position:     'fixed',
+        left:         '50%',
+        transform:    'translateX(-50%)',
+        bottom:       '22px',
+        padding:      '12px 20px',
+        zIndex:       '999',
+        borderRadius: '20px',
+        border:       '1px solid rgba(214,178,94,.35)',
+        background:   'rgba(15,17,21,.88)',
+        backdropFilter: 'blur(14px)',
+        color:        'var(--beige)',
+        fontWeight:   '700',
+        fontSize:     '14px',
+        maxWidth:     'calc(100vw - 32px)',
+        textAlign:    'center',
+        display:      'none',
+        boxShadow:    '0 12px 40px rgba(0,0,0,.35)',
+      });
+      document.body.appendChild(toast);
+    }
+
+    toast.textContent = msg;
+    toast.style.display = 'block';
+    toast.style.animation = 'none';
+    void toast.offsetWidth;
+    toast.style.animation = 'toastUp 0.35s cubic-bezier(0.19,1,0.22,1) both';
+
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.3s';
+      setTimeout(() => {
+        toast.style.display = 'none';
+        toast.style.opacity = '';
+        toast.style.transition = '';
+      }, 320);
+    }, duration);
+  }
+
+  window.showToast = showToast; // expose for other modules
+
+
+  /* ─────────────────────────────────────────────────────────
+     NAV: scroll shadow + active link
+  ───────────────────────────────────────────────────────── */
+
+  const nav      = $('.nav');
+  const navLinks = $$('.nav__link[data-target]');
+  const sections = navLinks.map(l => $(l.getAttribute('data-target'))).filter(Boolean);
 
   function setNavScrolled() {
     if (!nav) return;
@@ -22,30 +87,30 @@
     if (!sections.length) return;
     const y = window.scrollY + 110;
     let currentId = sections[0].id;
-
     for (const sec of sections) {
       if (sec.offsetTop <= y) currentId = sec.id;
     }
-
-    for (const l of links) {
-      const t = l.getAttribute('data-target');
+    for (const l of navLinks) {
+      const t  = l.getAttribute('data-target');
       const id = t ? t.replace('#', '') : null;
       l.classList.toggle('nav__link--active', id === currentId);
     }
   }
 
-  // ─── Smooth anchor scrolling (delegated) ───
-  document.addEventListener('click', (e) => {
+
+  /* ─────────────────────────────────────────────────────────
+     SMOOTH ANCHOR SCROLL  (delegated)
+  ───────────────────────────────────────────────────────── */
+
+  document.addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
-    const href = a.getAttribute('href');
+    const href   = a.getAttribute('href');
     if (!href || href.length < 2) return;
-
     const target = $(href);
     if (!target) return;
     e.preventDefault();
 
-    // close mobile menu
     const mobileMenu = $('.mobile-menu');
     if (mobileMenu) mobileMenu.classList.remove('mobile-menu--open');
 
@@ -53,17 +118,21 @@
     history.replaceState(null, '', href);
   });
 
-  // ─── Mobile menu ───
-  const burger = $('.burger');
+
+  /* ─────────────────────────────────────────────────────────
+     MOBILE MENU
+  ───────────────────────────────────────────────────────── */
+
+  const burger     = $('.burger');
   const mobileMenu = $('.mobile-menu');
+
   if (burger && mobileMenu) {
     burger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('mobile-menu--open');
-      const open = mobileMenu.classList.contains('mobile-menu--open');
+      const open = mobileMenu.classList.toggle('mobile-menu--open');
       burger.setAttribute('aria-expanded', open);
     });
 
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', e => {
       if (!mobileMenu.classList.contains('mobile-menu--open')) return;
       if (!e.target.closest('.nav')) {
         mobileMenu.classList.remove('mobile-menu--open');
@@ -72,81 +141,28 @@
     });
   }
 
-  // ─── Scroll animations with IntersectionObserver ───
-  const animObserver = new IntersectionObserver(
-    (entries) => {
-      for (const ent of entries) {
-        if (ent.isIntersecting) {
-          ent.target.classList.add('in-view');
-          ent.target.removeAttribute('data-animate');
-          animObserver.unobserve(ent.target);
-        }
-      }
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-  );
 
-  $$('[data-animate]').forEach((el) => {
-    el.classList.remove('in-view');
-    animObserver.observe(el);
-  });
+  /* ─────────────────────────────────────────────────────────
+     STICKY BOOK CTA
+  ───────────────────────────────────────────────────────── */
 
-  // ─── Sticky booking CTA ───
   const stickyBook = $('.sticky-book');
-  const hero = $('#home');
+  const heroSection = $('#home');
+
   function setStickyBook() {
-    if (!stickyBook || !hero) return;
-    stickyBook.classList.toggle('sticky-book--show', window.scrollY > hero.offsetHeight * 0.45);
+    if (!stickyBook || !heroSection) return;
+    stickyBook.classList.toggle('sticky-book--show', window.scrollY > heroSection.offsetHeight * 0.45);
   }
 
-  // ─── Booking form ───
-  const heroForm = $('#bookingForm');
-  if (heroForm) {
-    heroForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(heroForm).entries());
-      const checkIn = data['checkin'] || '';
-      const checkOut = data['checkout'] || '';
-      const guests = data['guests'] || '1';
 
-      const toast = $('#bookingToast');
-      const msg = `Request received: ${checkIn || '—'} → ${checkOut || '—'} · ${guests} guest(s).`;
+  /* ─────────────────────────────────────────────────────────
+     LIGHTBOX
+  ───────────────────────────────────────────────────────── */
 
-      if (toast) {
-        toast.textContent = msg;
-        toast.classList.add('toast--show');
-        clearTimeout(window.__toastTimer);
-        window.__toastTimer = setTimeout(() => toast.classList.remove('toast--show'), 3400);
-      }
-      heroForm.reset();
-    });
-  }
-
-  // ─── Contact form ───
-  const contactForm = $('#contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const toast = $('#bookingToast'); // reuse same style
-      const btn = contactForm.querySelector('button[type="submit"]');
-      const orig = btn.textContent;
-      btn.textContent = 'Sending…';
-      btn.disabled = true;
-
-      setTimeout(() => {
-        alert('Thank you! We will get back to you shortly.');
-        contactForm.reset();
-        btn.textContent = orig;
-        btn.disabled = false;
-      }, 600);
-    });
-  }
-
-  // ─── Lightbox ───
-  const lightbox = $('.lightbox');
-  const lightboxImg = $('.lightbox__img');
+  const lightbox        = $('.lightbox');
+  const lightboxImg     = $('.lightbox__img');
   const lightboxCaption = $('.lightbox__caption');
-  const lbClose = $('.lightbox__close');
+  const lbClose         = $('.lightbox__close');
 
   function openLightbox(src, caption) {
     if (!lightbox || !lightboxImg) return;
@@ -163,30 +179,24 @@
     document.body.style.overflow = '';
   }
 
-  $$('[data-lightbox-src]').forEach((tile) => {
+  $$('[data-lightbox-src]').forEach(tile => {
     tile.addEventListener('click', () => {
-      const src = tile.getAttribute('data-lightbox-src');
-      const cap = tile.getAttribute('data-lightbox-caption') || '';
-      openLightbox(src, cap);
+      openLightbox(
+        tile.getAttribute('data-lightbox-src'),
+        tile.getAttribute('data-lightbox-caption') || ''
+      );
     });
   });
 
-  if (lbClose) lbClose.addEventListener('click', closeLightbox);
-  if (lightbox) {
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-  }
+  if (lbClose)   lbClose.addEventListener('click', closeLightbox);
+  if (lightbox)  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeLightbox();
-      closeChatPanel();
-    }
-  });
 
-  // ─── Testimonials carousel (with touch support) ───
-  const track = $('.carousel__track');
+  /* ─────────────────────────────────────────────────────────
+     TESTIMONIALS CAROUSEL  (touch + auto-advance)
+  ───────────────────────────────────────────────────────── */
+
+  const track   = $('.carousel__track');
   const dotBtns = $$('.dotbtn[data-index]');
   const prevBtn = $('[data-carousel-prev]');
   const nextBtn = $('[data-carousel-next]');
@@ -196,13 +206,11 @@
   function goToSlide(i) {
     const slides = $$('.tslide');
     if (!slides.length || !track) return;
-    carouselIndex = (i + slides.length) % slides.length;
+    carouselIndex = ((i % slides.length) + slides.length) % slides.length;
     track.style.transform = `translateX(-${carouselIndex * 100}%)`;
-
-    for (const d of dotBtns) {
-      const di = Number(d.getAttribute('data-index'));
-      d.classList.toggle('dotbtn--active', di === carouselIndex);
-    }
+    dotBtns.forEach(d => {
+      d.classList.toggle('dotbtn--active', Number(d.getAttribute('data-index')) === carouselIndex);
+    });
   }
 
   function startCarousel() {
@@ -215,10 +223,10 @@
     carouselTimer = null;
   }
 
-  // Init carousel if track exists
   if (track) {
     goToSlide(0);
     startCarousel();
+
     const carousel = track.closest('.carousel');
     if (carousel) {
       carousel.addEventListener('mouseenter', stopCarousel);
@@ -226,18 +234,15 @@
       carousel.addEventListener('touchstart', onCarouselTouch, { passive: true });
     }
 
-    dotBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        goToSlide(Number(btn.getAttribute('data-index')));
-        startCarousel();
-      });
-    });
+    dotBtns.forEach(btn => btn.addEventListener('click', () => {
+      goToSlide(Number(btn.getAttribute('data-index')));
+      startCarousel();
+    }));
 
     if (prevBtn) prevBtn.addEventListener('click', () => { goToSlide(carouselIndex - 1); startCarousel(); });
     if (nextBtn) nextBtn.addEventListener('click', () => { goToSlide(carouselIndex + 1); startCarousel(); });
   }
 
-  // Touch swipe for carousel
   let touchStartX = 0;
   function onCarouselTouch(e) {
     touchStartX = e.touches[0].clientX;
@@ -251,8 +256,12 @@
     }
   }
 
-  // ─── FAQ accordion ───
-  $$('[data-faq-item]').forEach((item) => {
+
+  /* ─────────────────────────────────────────────────────────
+     FAQ ACCORDION
+  ───────────────────────────────────────────────────────── */
+
+  $$('[data-faq-item]').forEach(item => {
     const btn = $('.faq-q', item);
     if (!btn) return;
     btn.addEventListener('click', () => {
@@ -261,29 +270,93 @@
     });
   });
 
-  // ─── Live chat widget ───
-  const chatBtn = $('.chat-btn');
+
+  /* ─────────────────────────────────────────────────────────
+     LIVE CHAT WIDGET
+  ───────────────────────────────────────────────────────── */
+
+  const chatBtn   = $('.chat-btn');
   const chatPanel = $('.chat-panel');
   const closeChat = $('.chat-close');
 
-  function openChat() {
-    if (chatPanel) chatPanel.classList.add('chat-panel--open');
-  }
+  function openChat()  { if (chatPanel) chatPanel.classList.add('chat-panel--open'); }
+  function closeChat_() { if (chatPanel) chatPanel.classList.remove('chat-panel--open'); }
 
-  function closeChatPanel() {
-    if (chatPanel) chatPanel.classList.remove('chat-panel--open');
-  }
+  if (chatBtn)   chatBtn.addEventListener('click', openChat);
+  if (closeChat) closeChat.addEventListener('click', closeChat_);
 
-  if (chatBtn) chatBtn.addEventListener('click', openChat);
-  if (closeChat) closeChat.addEventListener('click', closeChatPanel);
-
-  // Chat from contact sidebar
-  document.addEventListener('click', (e) => {
-    const openBtn = e.target.closest('[data-open-chat]');
-    if (openBtn) openChat();
+  // Any [data-open-chat] button opens the panel
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-open-chat]')) openChat();
   });
 
-  // ─── Initialise ───
+  // Close via [data-chat-close]
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-chat-close]')) closeChat_();
+  });
+
+  // Escape closes chat & lightbox
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    closeLightbox();
+    closeChat_();
+  });
+
+  // Schedule buttons
+  $$('[data-schedule]').forEach(b => b.addEventListener('click', () => {
+    showToast('Availability saved. Chat to confirm your preferred time.');
+  }));
+
+
+  /* ─────────────────────────────────────────────────────────
+     CONTACT FORM
+  ───────────────────────────────────────────────────────── */
+
+  const contactForm = $('#contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(contactForm).entries());
+      const btn  = contactForm.querySelector('button[type="submit"]');
+      const orig = btn ? btn.innerHTML : '';
+
+      if (btn) { btn.innerHTML = '<span class="btn-spinner"></span> Sending…'; btn.disabled = true; }
+
+      setTimeout(() => {
+        showToast(`Message sent. Thank you, ${data.name || 'guest'}! We'll be in touch shortly.`);
+        contactForm.reset();
+        if (btn) { btn.innerHTML = orig; btn.disabled = false; }
+      }, 700);
+    });
+  }
+
+
+  /* ─────────────────────────────────────────────────────────
+     NEWSLETTER FORM
+  ───────────────────────────────────────────────────────── */
+
+  const newsletterForm = $('#newsletterForm');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', e => {
+      e.preventDefault();
+      newsletterForm.reset();
+      showToast('Subscribed! Welcome to premium updates.');
+    });
+  }
+
+
+  /* ─────────────────────────────────────────────────────────
+     FOOTER YEAR
+  ───────────────────────────────────────────────────────── */
+
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+
+  /* ─────────────────────────────────────────────────────────
+     INIT
+  ───────────────────────────────────────────────────────── */
+
   setNavScrolled();
   setActiveLinkByScroll();
   setStickyBook();
@@ -292,9 +365,6 @@
     setNavScrolled();
     setActiveLinkByScroll();
     setStickyBook();
-  });
+  }, { passive: true });
 
-  // ─── Redundant: clean up duplicate .toast hit from old code ───
-  // The HTML previously had duplicate `class="toast"` attributes.
-  // This resolves it: the toast now uses id="bookingToast".
 })();

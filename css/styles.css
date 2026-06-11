@@ -260,68 +260,7 @@ section, footer, main{scroll-margin-top: calc(var(--navH) + 14px);}
 .hero__note{margin-top: 10px; color: rgba(251,246,238,.70); font-size: 13px; display:flex; gap:10px; align-items:flex-start;}
 .dot{width:8px; height:8px; border-radius:999px; background: var(--gold); margin-top: 7px; flex-shrink:0;}
 
-/* Scroll animations — smooth, no blur, with stagger */
-[data-animate]{
-  opacity:0;
-  transform: translateY(24px);
-  transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo);
-}
-[data-animate].in-view{
-  opacity:1;
-  transform: translateY(0);
-}
-
-/* Stagger delays for grid children */
-.cards-4 > [data-animate]:nth-child(1),
-.grid-3 > [data-animate]:nth-child(1),
-.icon-grid > [data-animate]:nth-child(1),
-.grid-6 > [data-animate]:nth-child(1),
-.team-grid > [data-animate]:nth-child(1),
-.grid-4 > [data-animate]:nth-child(1),
-.attr-grid > [data-animate]:nth-child(1),
-.gallery-grid > [data-animate]:nth-child(1){ transition-delay: .05s; }
-
-.cards-4 > [data-animate]:nth-child(2),
-.grid-3 > [data-animate]:nth-child(2),
-.icon-grid > [data-animate]:nth-child(2),
-.grid-6 > [data-animate]:nth-child(2),
-.team-grid > [data-animate]:nth-child(2),
-.grid-4 > [data-animate]:nth-child(2),
-.attr-grid > [data-animate]:nth-child(2),
-.gallery-grid > [data-animate]:nth-child(2){ transition-delay: .12s; }
-
-.cards-4 > [data-animate]:nth-child(3),
-.grid-3 > [data-animate]:nth-child(3),
-.icon-grid > [data-animate]:nth-child(3),
-.grid-6 > [data-animate]:nth-child(3),
-.team-grid > [data-animate]:nth-child(3),
-.grid-4 > [data-animate]:nth-child(3),
-.attr-grid > [data-animate]:nth-child(3),
-.gallery-grid > [data-animate]:nth-child(3){ transition-delay: .19s; }
-
-.cards-4 > [data-animate]:nth-child(4),
-.icon-grid > [data-animate]:nth-child(4),
-.grid-6 > [data-animate]:nth-child(4),
-.team-grid > [data-animate]:nth-child(4),
-.grid-4 > [data-animate]:nth-child(4),
-.attr-grid > [data-animate]:nth-child(4),
-.gallery-grid > [data-animate]:nth-child(4){ transition-delay: .26s; }
-
-.team-grid > [data-animate]:nth-child(5),
-.icon-grid > [data-animate]:nth-child(5),
-.attr-grid > [data-animate]:nth-child(5),
-.gallery-grid > [data-animate]:nth-child(5){ transition-delay: .33s; }
-
-.icon-grid > [data-animate]:nth-child(6),
-.grid-6 > [data-animate]:nth-child(6),
-.attr-grid > [data-animate]:nth-child(6),
-.gallery-grid > [data-animate]:nth-child(6){ transition-delay: .40s; }
-
-.icon-grid > [data-animate]:nth-child(7),
-.gallery-grid > [data-animate]:nth-child(7){ transition-delay: .44s; }
-.icon-grid > [data-animate]:nth-child(8){ transition-delay: .48s; }
-.icon-grid > [data-animate]:nth-child(9){ transition-delay: .52s; }
-.icon-grid > [data-animate]:nth-child(10){ transition-delay: .56s; }
+/* Scroll animations & stagger delays moved to css/animations.css */
 
 /* Highlights */
 .cards-4{display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 28px;}

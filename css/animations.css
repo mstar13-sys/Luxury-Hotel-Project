@@ -1,0 +1,706 @@
+/* ============================================================
+   animations.css — Luxury Hotel
+   All keyframes, scroll-reveal, hero entrance, and
+   page-load sequence. Kept separate so future devs can
+   tune motion without touching layout or component styles.
+   ============================================================ */
+
+/* ── Reduced-motion: cut all transitions & animations ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   KEYFRAMES
+   ──────────────────────────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Hero background parallax blur lift */
+@keyframes heroBgReveal {
+  from { opacity: 0; transform: scale(1.06); filter: blur(8px) saturate(0.7); }
+  to   { opacity: 1; transform: scale(1);    filter: blur(0px) saturate(1.02); }
+}
+
+/* Badge shimmer sweep */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Gold pulse glow on CTA button */
+@keyframes goldGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(214,178,94,0); }
+  50%       { box-shadow: 0 0 28px 6px rgba(214,178,94,.22); }
+}
+
+/* Floating ambient orb */
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-18px) scale(1.04); }
+}
+
+/* Subtle counter count-up flicker */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal entrance */
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Toast slide-up */
+@keyframes toastUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Typing cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Sticky book bounce-in */
+@keyframes bounceFadeUp {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.88); }
+  60%  { transform: translateY(-4px) scale(1.04); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Card hover shimmer overlay sweep */
+@keyframes cardShimmer {
+  0%   { left: -60%; }
+  100% { left: 110%; }
+}
+
+/* Section divider line draw */
+@keyframes drawLine {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Spin loader */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   HERO PAGE-LOAD SEQUENCE
+   Elements appear in layers: bg → badge → h1 → p → ctas → note
+   ──────────────────────────────────────────────────────────── */
+
+.hero__bg {
+  animation: heroBgReveal 1.4s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.hero-badge-enter {
+  animation: fadeDown 0.7s 0.20s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.hero-h1-enter {
+  animation: fadeUp 0.9s 0.38s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.hero-p-enter {
+  animation: fadeUp 0.85s 0.52s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.hero-ctas-enter {
+  animation: fadeUp 0.8s 0.64s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.hero-note-enter {
+  animation: fadeUp 0.75s 0.76s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.hero-card-enter {
+  animation: slideInRight 0.95s 0.45s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   SCROLL-REVEAL  (driven by IntersectionObserver in animations.js)
+   ──────────────────────────────────────────────────────────── */
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity  0.72s cubic-bezier(0.19, 1, 0.22, 1),
+    transform 0.72s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+[data-animate].in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variant: slide from left */
+[data-animate-left] {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition:
+    opacity  0.72s cubic-bezier(0.19, 1, 0.22, 1),
+    transform 0.72s cubic-bezier(0.19, 1, 0.22, 1);
+}
+[data-animate-left].in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Variant: slide from right */
+[data-animate-right] {
+  opacity: 0;
+  transform: translateX(30px);
+  transition:
+    opacity  0.72s cubic-bezier(0.19, 1, 0.22, 1),
+    transform 0.72s cubic-bezier(0.19, 1, 0.22, 1);
+}
+[data-animate-right].in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Variant: scale pop */
+[data-animate-scale] {
+  opacity: 0;
+  transform: scale(0.93);
+  transition:
+    opacity  0.65s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-animate-scale].in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   GRID STAGGER DELAYS
+   Applies to the shared [data-animate] children inside layouts
+   ──────────────────────────────────────────────────────────── */
+
+.cards-4 > [data-animate]:nth-child(1),
+.grid-3  > [data-animate]:nth-child(1),
+.icon-grid > [data-animate]:nth-child(1),
+.grid-6  > [data-animate]:nth-child(1),
+.team-grid > [data-animate]:nth-child(1),
+.grid-4  > [data-animate]:nth-child(1),
+.attr-grid > [data-animate]:nth-child(1),
+.gallery-grid > [data-animate]:nth-child(1) { transition-delay: .04s; }
+
+.cards-4 > [data-animate]:nth-child(2),
+.grid-3  > [data-animate]:nth-child(2),
+.icon-grid > [data-animate]:nth-child(2),
+.grid-6  > [data-animate]:nth-child(2),
+.team-grid > [data-animate]:nth-child(2),
+.grid-4  > [data-animate]:nth-child(2),
+.attr-grid > [data-animate]:nth-child(2),
+.gallery-grid > [data-animate]:nth-child(2) { transition-delay: .12s; }
+
+.cards-4 > [data-animate]:nth-child(3),
+.grid-3  > [data-animate]:nth-child(3),
+.icon-grid > [data-animate]:nth-child(3),
+.grid-6  > [data-animate]:nth-child(3),
+.team-grid > [data-animate]:nth-child(3),
+.grid-4  > [data-animate]:nth-child(3),
+.attr-grid > [data-animate]:nth-child(3),
+.gallery-grid > [data-animate]:nth-child(3) { transition-delay: .20s; }
+
+.cards-4 > [data-animate]:nth-child(4),
+.icon-grid > [data-animate]:nth-child(4),
+.grid-6  > [data-animate]:nth-child(4),
+.team-grid > [data-animate]:nth-child(4),
+.grid-4  > [data-animate]:nth-child(4),
+.attr-grid > [data-animate]:nth-child(4),
+.gallery-grid > [data-animate]:nth-child(4) { transition-delay: .28s; }
+
+.team-grid > [data-animate]:nth-child(5),
+.icon-grid > [data-animate]:nth-child(5),
+.attr-grid > [data-animate]:nth-child(5),
+.gallery-grid > [data-animate]:nth-child(5) { transition-delay: .36s; }
+
+.icon-grid > [data-animate]:nth-child(6),
+.grid-6  > [data-animate]:nth-child(6),
+.attr-grid > [data-animate]:nth-child(6),
+.gallery-grid > [data-animate]:nth-child(6) { transition-delay: .42s; }
+
+.icon-grid > [data-animate]:nth-child(7),
+.gallery-grid > [data-animate]:nth-child(7) { transition-delay: .48s; }
+
+.icon-grid > [data-animate]:nth-child(8)  { transition-delay: .54s; }
+.icon-grid > [data-animate]:nth-child(9)  { transition-delay: .60s; }
+.icon-grid > [data-animate]:nth-child(10) { transition-delay: .66s; }
+
+
+/* ────────────────────────────────────────────────────────────
+   BOOKING MODAL
+   ──────────────────────────────────────────────────────────── */
+
+.booking-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.70);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.booking-modal-overlay.modal--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.booking-modal {
+  width: min(680px, 100%);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(160deg, rgba(20, 22, 28, 0.96), rgba(12, 14, 18, 0.98));
+  backdrop-filter: blur(22px);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.60), 0 0 0 1px rgba(214, 178, 94, 0.12);
+  overflow: hidden;
+  transform: translateY(28px) scale(0.97);
+  transition: transform 0.38s cubic-bezier(0.19, 1, 0.22, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214,178,94,.3) transparent;
+}
+
+.booking-modal-overlay.modal--open .booking-modal {
+  transform: translateY(0) scale(1);
+}
+
+.booking-modal__header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  background: linear-gradient(180deg, rgba(214, 178, 94, 0.06), transparent);
+}
+
+.booking-modal__header-text { flex: 1; }
+
+.booking-modal__title {
+  margin: 0;
+  font-size: clamp(20px, 2.5vw, 26px);
+  letter-spacing: 0.2px;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.booking-modal__subtitle {
+  margin: 6px 0 0;
+  color: rgba(251, 246, 238, 0.68);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.booking-modal__close {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(251, 246, 238, 0.80);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.22s, border-color 0.22s, transform 0.22s;
+}
+.booking-modal__close:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(214, 178, 94, 0.35);
+  transform: rotate(90deg);
+}
+
+.booking-modal__body {
+  padding: 22px 24px 28px;
+}
+
+/* Progress steps */
+.booking-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 26px;
+}
+
+.booking-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  position: relative;
+}
+
+.booking-step::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 0 8px;
+  transform-origin: left;
+  transition: background 0.4s;
+}
+.booking-step:last-child::after { display: none; }
+
+.booking-step.step--done::after {
+  background: linear-gradient(90deg, rgba(214, 178, 94, 0.6), rgba(214, 178, 94, 0.2));
+}
+
+.booking-step__num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(251, 246, 238, 0.60);
+  font-size: 12px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.booking-step.step--active .booking-step__num {
+  background: linear-gradient(135deg, rgba(242,215,134,.25), rgba(214,178,94,.10));
+  border-color: rgba(214, 178, 94, 0.50);
+  color: var(--gold2);
+}
+
+.booking-step.step--done .booking-step__num {
+  background: rgba(214, 178, 94, 0.15);
+  border-color: rgba(214, 178, 94, 0.45);
+  color: var(--gold2);
+}
+
+.booking-step__label {
+  font-size: 11px;
+  color: rgba(251, 246, 238, 0.55);
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: color 0.3s;
+}
+
+.booking-step.step--active .booking-step__label,
+.booking-step.step--done  .booking-step__label { color: rgba(251,246,238,.88); }
+
+/* Step panels */
+.booking-panel { display: none; }
+.booking-panel.panel--active {
+  display: block;
+  animation: fadeUp 0.40s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.booking-summary {
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(214, 178, 94, 0.20);
+  background: rgba(214, 178, 94, 0.05);
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
+}
+
+.booking-summary__item { display: flex; flex-direction: column; gap: 4px; }
+.booking-summary__label { font-size: 11px; color: rgba(251,246,238,.55); letter-spacing: 0.4px; text-transform: uppercase; }
+.booking-summary__value { font-size: 15px; font-weight: 800; color: var(--gold2); }
+
+/* Room picker inside modal */
+.room-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.room-option {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.25s, background 0.25s;
+  position: relative;
+}
+
+.room-option:hover {
+  border-color: rgba(214, 178, 94, 0.35);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.room-option.room--selected {
+  border-color: rgba(214, 178, 94, 0.60);
+  background: rgba(214, 178, 94, 0.08);
+  box-shadow: 0 0 0 1px rgba(214, 178, 94, 0.20);
+}
+
+.room-option__check {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(242,215,134,.3), rgba(214,178,94,.15));
+  border: 1px solid rgba(214, 178, 94, 0.50);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 0.22s;
+  z-index: 2;
+}
+.room-option.room--selected .room-option__check { opacity: 1; }
+
+.room-option img {
+  width: 100%; height: 100px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s;
+}
+.room-option:hover img { transform: scale(1.05); }
+
+.room-option__body { padding: 10px 12px 12px; }
+.room-option__name { font-size: 13px; font-weight: 800; margin: 0; }
+.room-option__price { margin-top: 4px; font-size: 15px; font-weight: 900; color: var(--gold2); }
+
+/* Confirmation panel */
+.booking-confirm {
+  text-align: center;
+  padding: 10px 0 4px;
+}
+
+.booking-confirm__icon {
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(214,178,94,.20), rgba(214,178,94,.06));
+  border: 1px solid rgba(214, 178, 94, 0.35);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 28px;
+  animation: scaleIn 0.55s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.booking-confirm__title {
+  margin: 0 0 10px;
+  font-size: 22px;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.booking-confirm__text {
+  color: rgba(251, 246, 238, 0.72);
+  line-height: 1.7;
+  max-width: 460px;
+  margin: 0 auto 20px;
+}
+
+.booking-confirm__ref {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(214, 178, 94, 0.30);
+  background: rgba(214, 178, 94, 0.08);
+  font-size: 13px;
+  color: var(--gold2);
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  margin-bottom: 22px;
+}
+
+/* Floating action btn on hero card (replaces old form) */
+.hero-book-card {
+  border-radius: var(--radius2);
+  background: linear-gradient(160deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.15);
+  box-shadow: 0 22px 68px rgba(0,0,0,.42), 0 0 0 1px rgba(214,178,94,.10);
+  backdrop-filter: blur(18px);
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient gold shimmer strip on card */
+.hero-book-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(214,178,94,.50), transparent);
+}
+
+.hero-book-card__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.hero-book-card__title h3 { margin: 0; font-size: 17px; letter-spacing: .2px; }
+
+/* Quick date row inside the card */
+.hero-date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.hero-date-row .field,
+.hero-guests-row .field { display: flex; flex-direction: column; gap: 6px; }
+
+.hero-guests-row { margin-bottom: 14px; }
+
+/* CTA glow pulse on hero card button */
+.btn--book-cta {
+  animation: goldGlow 3s 1.6s ease-in-out infinite;
+}
+
+/* Spin loader inside button */
+.btn-spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(214,178,94,.35);
+  border-top-color: var(--gold2);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   HERO AMBIENT ORBS  (purely decorative background elements)
+   ──────────────────────────────────────────────────────────── */
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-orb--1 {
+  width: 420px; height: 420px;
+  top: -80px; right: -60px;
+  background: radial-gradient(circle, rgba(214,178,94,.12) 0%, transparent 70%);
+  animation: floatOrb 8s ease-in-out infinite;
+}
+
+.hero-orb--2 {
+  width: 280px; height: 280px;
+  bottom: 60px; left: 5%;
+  background: radial-gradient(circle, rgba(240,227,207,.07) 0%, transparent 70%);
+  animation: floatOrb 11s 3s ease-in-out infinite;
+}
+
+/* ────────────────────────────────────────────────────────────
+   SECTION DIVIDER  (optional decorative line drawn on scroll)
+   ──────────────────────────────────────────────────────────── */
+
+.section-line {
+  width: 56px; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  border-radius: 999px;
+  margin: 14px 0 26px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.section-line.in-view { transform: scaleX(1); }
+
+/* ────────────────────────────────────────────────────────────
+   CARD HOVER SHIMMER  (light sweep across cards on hover)
+   ──────────────────────────────────────────────────────────── */
+
+.card,
+.offer,
+.attr,
+.why,
+.stat {
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before,
+.offer::before,
+.attr::before,
+.why::before,
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(
+    105deg,
+    transparent,
+    rgba(255,255,255,.05),
+    transparent
+  );
+  transform: skewX(-15deg);
+  pointer-events: none;
+  transition: none;
+  opacity: 0;
+}
+
+.card:hover::before,
+.offer:hover::before,
+.attr:hover::before,
+.why:hover::before,
+.stat:hover::before {
+  opacity: 1;
+  animation: cardShimmer 0.55s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
