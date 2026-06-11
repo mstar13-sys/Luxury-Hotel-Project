@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title> Luxury Hotel | Experience Luxury Beyond Expectations</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Experience luxury beyond expectations at Lester Luxury Hotel. Premium rooms, exceptional service, secure booking and direct reservations." />
+  <meta name="keywords" content="luxury hotel, hotel booking, suites, spa, fine dining, premium stay" />
+  <meta name="theme-color" content="#12151b" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Lester Luxury Hotel" />
+  <meta property="og:description" content="Luxury rooms, suites, spa, dining and secure booking." />
+
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <script>
+    // Preconnect improves perceived load time for common image hosts.
+    try {
+      const hosts = ['https://images.unsplash.com'];
+      hosts.forEach(h => {
+        const u = document.createElement('link');
+        u.rel = 'preconnect';
+        u.href = h;
+        document.head.appendChild(u);
+      });
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <!-- Sticky Navigation -->
+  <header class="nav" role="navigation" aria-label="Primary">
+    <div class="container nav__inner">
+      <a class="brand" href="#home" aria-label="Lester Luxury Hotel Home">
+        <span class="brand__mark" aria-hidden="true"></span>
+        <span class="brand__text">
+          <span class="brand__name"> Luxury Hotel</span>
+          <span class="brand__tag">Elegant stays · Secure booking</span>
+        </span>
+      </a>
+
+      <nav class="nav__links" aria-label="Site sections">
+        <a class="nav__link" href="#home" data-target="#home">Home</a>
+        <a class="nav__link" href="#rooms" data-target="#rooms">Rooms &amp; Suites</a>
+        <a class="nav__link" href="#amenities" data-target="#amenities">Amenities</a>
+        <a class="nav__link" href="#gallery" data-target="#gallery">Gallery</a>
+        <a class="nav__link" href="#about" data-target="#about">About Us</a>
+        <a class="nav__link" href="#contact" data-target="#contact">Contact</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="icon-btn burger" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <a class="btn btn--primary" href="#book" aria-label="Book now">
+          <span>Book Now</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 7h11v14H5V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8 7V4h3l-1 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="mobile-menu" aria-label="Mobile menu">
+      <div class="container mobile-menu__grid">
+        <a class="mobile-menu__link" href="#home">Home</a>
+        <a class="mobile-menu__link" href="#rooms">Rooms &amp; Suites</a>
+        <a class="mobile-menu__link" href="#amenities">Amenities</a>
+        <a class="mobile-menu__link" href="#gallery">Gallery</a>
+        <a class="mobile-menu__link" href="#about">About Us</a>
+        <a class="mobile-menu__link" href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main>
+    <section id="home" class="hero" aria-label="Hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+
+      <div class="container hero__content">
+        <div class="hero-grid">
+          <div>
+            <div class="badge" data-animate>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              <span>Luxury stays with thoughtful hospitality</span>
+            </div>
+
+            <h1 data-animate>Experience Luxury Beyond Expectations</h1>
+            <p data-animate>
+              Comfort. Elegance. Hospitality crafted for discerning travelers—featuring premium suites, refined dining,
+              and discreet service from arrival to departure.
+            </p>
+
+            <div class="hero__ctas" data-animate>
+              <a class="btn btn--primary" href="#book">
+                Book Your Stay
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <a class="btn btn--ghost" href="#rooms">
+                Explore Rooms
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </a>
+            </div>
+
+            <div class="hero__note" data-animate>
+              <span class="dot" aria-hidden="true"></span>
+              <span>
+                <strong style="color: var(--gold2);">Direct booking</strong> · Transparent pricing ·
+                Fast confirmations · Accessibility-friendly experience.
+              </span>
+            </div>
+          </div>
+
+          <aside id="book" class="form-card" data-animate aria-label="Quick booking form">
+            <div class="form-card__title">
+              <h3>Check availability</h3>
+              <span class="badge" style="padding:8px 12px;">Best rate guarantee</span>
+            </div>
+
+            <form id="bookingForm" class="form" style="border:0; padding:0; background:transparent;">
+              <div class="form-grid" style="margin-top:0;">
+                <div class="field">
+                  <span class="label">Check-in Date</span>
+                  <input class="input" type="date" name="checkin" required />
+                </div>
+                <div class="field">
+                  <span class="label">Check-out Date</span>
+                  <input class="input" type="date" name="checkout" required />
+                </div>
+                <div class="field" style="grid-column:1 / -1;">
+                  <span class="label">Guests</span>
+                  <select class="input" name="guests" aria-label="Number of guests">
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                  </select>
+                </div>
+
+                <div class="form-actions">
+                  <button class="btn btn--primary" type="submit">
+                    Search Availability
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" stroke="currentColor" stroke-width="2"/>
+                      <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="hero__note">
+                <span class="dot" aria-hidden="true"></span>
+                <span>We’ll show curated room options and best-rate offers instantly.</span>
+              </div>
+            </form>
+
+            <div id="bookingToast" class="toast" aria-live="polite" role="status" style="margin-top:12px;
+              color: var(--beige);
+              padding: 10px 12px; border-radius: 14px; border:1px solid rgba(214,178,94,.35); background: rgba(214,178,94,.10);
+              font-weight:700;"></div>
+
+            <style>
+              /* Small toast helper (kept here to avoid extra files changes) */
+              .toast--show{display:block;}
+            </style>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hotel Highlights -->
+    <section class="section" aria-label="Hotel highlights">
+      <div class="container">
+        <h2 class="section-title" data-animate>Hotel Highlights</h2>
+        <p class="section-subtitle" data-animate>
+          Built on refined service, curated comfort, and a hospitality team dedicated to memorable experiences.
+        </p>
+
+        <div class="cards-4">
+          <div class="stat" data-animate>
+            <div class="stat__num">120+</div>
+            <div class="stat__label">Number of Luxury Rooms</div>
+          </div>
+          <div class="stat" data-animate>
+            <div class="stat__num">18</div>
+            <div class="stat__label">Years of Service</div>
+          </div>
+          <div class="stat" data-animate>
+            <div class="stat__num">4.9/5</div>
+            <div class="stat__label">Customer Satisfaction Rate</div>
+          </div>
+          <div class="stat" data-animate>
+            <div class="stat__num">24</div>
+            <div class="stat__label">Awards Received</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rooms & Suites -->
+    <section id="rooms" class="section" aria-label="Rooms and suites">
+      <div class="container">
+        <h2 class="section-title" data-animate>Featured Rooms &amp; Suites</h2>
+        <p class="section-subtitle" data-animate>
+          Discover curated spaces designed for calm, elegance, and unforgettable comfort.
+        </p>
+
+        <div class="grid-3">
+          <article class="card" data-animate>
+            <div class="card__media">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=70" alt="Luxury king room" />
+              <div class="card__tag badge" style="position:absolute; top:14px; left:14px;">Signature</div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Royal King Room</h3>
+              <div class="card__meta">
+                <span class="pill">👤 Sleeps 2</span>
+                <span class="pill">🛁 Spa-ready bath</span>
+              </div>
+              <div class="card__price">
+                <div class="price">$220</div>
+                <div style="color: rgba(251,246,238,.72); font-size: 13px;">per night</div>
+              </div>
+              <div class="card__actions">
+                <a class="btn" href="#contact">View Details</a>
+                <a class="btn btn--primary" href="#book">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-animate>
+            <div class="card__media">
+              <img loading="lazy" src="https://www.peninsula.com/-/media/pbk/rooms/grand-deluxe-room.jpg" alt="Suite with seating area" />
+              <div class="card__tag badge" style="position:absolute; top:14px; left:14px;">Suite</div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Grand Deluxe Suite</h3>
+              <div class="card__meta">
+                <span class="pill">👥 Sleeps 3-4</span>
+                <span class="pill">🌅 City skyline</span>
+              </div>
+              <div class="card__price">
+                <div class="price">$340</div>
+                <div style="color: rgba(251,246,238,.72); font-size: 13px;">per night</div>
+              </div>
+              <div class="card__actions">
+                <a class="btn" href="#contact">View Details</a>
+                <a class="btn btn--primary" href="#book">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-animate>
+            <div class="card__media">
+              <img loading="lazy" src="https://www.theluxevoyager.com/wp-content/uploads/2019/05/The-Apurva-Kempinski-Bali-The-Apurva-Prestige-Ocean-Suite.jpg" alt="Luxury suite bedroom" />
+              <div class="card__tag badge" style="position:absolute; top:14px; left:14px;">Signature</div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Prestige Ocean Suite</h3>
+              <div class="card__meta">
+                <span class="pill">👤 Sleeps 2</span>
+                <span class="pill">🌊 Ocean views</span>
+              </div>
+              <div class="card__price">
+                <div class="price">$410</div>
+                <div style="color: rgba(251,246,238,.72); font-size: 13px;">per night</div>
+              </div>
+              <div class="card__actions">
+                <a class="btn" href="#contact">View Details</a>
+                <a class="btn btn--primary" href="#book">Book Now</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Amenities -->
+    <section id="amenities" class="section" aria-label="Amenities">
+      <div class="container">
+        <h2 class="section-title" data-animate>Amenities &amp; Services</h2>
+        <p class="section-subtitle" data-animate>
+          From wellness to dining and convenience—everything is designed to make your stay effortless.
+        </p>
+
+        <div class="icon-grid">
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M6 13c1.5-3 3.5-5 6-5s4.5 2 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Swimming Pool</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 3c3 3 6 5 6 9a6 6 0 0 1-12 0c0-4 3-6 6-9z" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Spa &amp; Wellness</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M7 4h10v4H7z" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 8v12h6V8" stroke="currentColor" stroke-width="2"/>
+              <path d="M7 20h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Restaurant &amp; Bar</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 14l4-4 4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 20h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Fitness Center</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 7h6l3 6h9v4H3z" stroke="currentColor" stroke-width="2"/>
+              <path d="M7 19a2 2 0 1 0 0 .01" stroke="currentColor" stroke-width="2"/>
+              <path d="M17 19a2 2 0 1 0 0 .01" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Airport Transfer</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 20V9l8-5 8 5v11" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 20v-7h6v7" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Conference Rooms</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 10h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Free Wi‑Fi</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 1v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 23c5 0 9-4 9-9S17 5 12 5 3 9 3 14s4 9 9 9z" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 14l3-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>24/7 Room Service</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 17V7l6-4 6 4v10l-6 4-6-4z" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 10h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Parking Area</span>
+          </div>
+          <div class="amenity" data-animate>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M7 6h10l2 4v10H5V10l2-4z" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 10h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Laundry Services</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="section" aria-label="Gallery">
+      <div class="container">
+        <h2 class="section-title" data-animate>Interactive Hotel Gallery</h2>
+        <p class="section-subtitle" data-animate>
+          Tap images to open a premium lightbox viewer.
+        </p>
+
+        <div class="gallery-grid">
+          <div class="gtile g1" data-animate data-lightbox-src="https://images.unsplash.com/photo-1505691723518-36a5ac3b2f5d?auto=format&fit=crop&w=1600&q=70" data-lightbox-caption="Luxury room ambience">
+            <img loading="lazy" src="https://png.pngtree.com/thumb_back/fw800/background/20251224/pngtree-luxurious-bedroom-with-cityscape-view-at-night-modern-interior-design-high-image_20918531.webp" alt="Luxury room ambience" />
+            <div class="gtile__label">Rooms</div>
+          </div>
+          <div class="gtile g2" data-animate data-lightbox-src="https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1600&q=70" data-lightbox-caption="Elegant lobby and lounge">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1100&q=70" alt="Elegant lobby and lounge" />
+            <div class="gtile__label">Lobby</div>
+          </div>
+          <div class="gtile g3" data-animate data-lightbox-src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1600&q=70" data-lightbox-caption="Fine dining experience">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1100&q=70" alt="Fine dining experience" />
+            <div class="gtile__label">Dining</div>
+          </div>
+          <div class="gtile g4" data-animate data-lightbox-src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=70" data-lightbox-caption="Pool area serenity">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1100&q=70" alt="Pool area serenity" />
+            <div class="gtile__label">Pool</div>
+          </div>
+          <div class="gtile g5" data-animate data-lightbox-src="https://images.unsplash.com/photo-1533106418989-88406c7cc8c1?auto=format&fit=crop&w=1600&q=70" data-lightbox-caption="Event venues made memorable">
+            <img loading="lazy" src="https://summithotels.ph/sites/default/files/styles/convert_to_webp/public/SGC%20-%20ballroom%20web%20banner_0.jpg.webp?itok=gieLWJFj" alt="Event venues made memorable" />
+            <div class="gtile__label">Events</div>
+          </div>
+          <div class="gtile g6" data-animate data-lightbox-src="https://images.unsplash.com/photo-1505692952047-1a78307da8f2?auto=format&fit=crop&w=1600&q=70" data-lightbox-caption="Luxury suite details">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1505692952047-1a78307da8f2?auto=format&fit=crop&w=1100&q=70" alt="Luxury suite details" />
+            <div class="gtile__label">Suites</div>
+          </div>
+          <div class="gtile g7" data-animate data-lightbox-src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1600&q=70" data-lightbox-caption="Relaxing lounge setting">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1100&q=70" alt="Relaxing lounge setting" />
+            <div class="gtile__label">Lounge</div>
+          </div>
+        </div>
+
+        <div class="lightbox" aria-modal="true" role="dialog" aria-label="Image lightbox">
+          <div class="lightbox__panel">
+            <div class="lightbox__bar">
+              <div class="lightbox__caption"></div>
+              <button class="icon-btn lightbox__close" type="button" aria-label="Close lightbox">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <img class="lightbox__img" src="" alt="" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / Why Choose -->
+    <section id="about" class="section" aria-label="Why choose our hotel">
+      <div class="container">
+        <h2 class="section-title" data-animate>Why Choose Our Hotel</h2>
+        <p class="section-subtitle" data-animate>
+          A premium experience—consistent, attentive, and designed to feel effortless.
+        </p>
+
+        <div class="grid-6">
+          <div class="why" data-animate>
+            <h4>Prime Location</h4>
+            <p>Steps from iconic attractions with convenient access to dining, shopping, and culture.</p>
+          </div>
+          <div class="why" data-animate>
+            <h4>Exceptional Service</h4>
+            <p>Friendly professionals who anticipate needs—your comfort is our priority.</p>
+          </div>
+          <div class="why" data-animate>
+            <h4>Luxury Experience</h4>
+            <p>Refined interiors, curated amenities, and a calm atmosphere across every suite.</p>
+          </div>
+          <div class="why" data-animate>
+            <h4>Secure Booking</h4>
+            <p>Transparent rates and confident reservations—built for trust and peace of mind.</p>
+          </div>
+          <div class="why" data-animate>
+            <h4>Professional Staff</h4>
+            <p>Dedicated guest relations and experienced teams across rooms, events, and wellness.</p>
+          </div>
+          <div class="why" data-animate>
+            <h4>Affordable Luxury</h4>
+            <p>Best-rate options and seasonal promotions—premium without compromise.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meet Guest Relations Team -->
+    <section class="section" aria-label="Guest relations team">
+      <div class="container">
+        <h2 class="section-title" data-animate>Meet Our Guest Relations Team</h2>
+        <p class="section-subtitle" data-animate>
+          Reach the right person quickly—live chat, scheduled availability, and direct contact options.
+        </p>
+
+        <div class="team-grid">
+          <article class="team" data-animate>
+            <div class="team__media">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=70" alt="Reservation Manager photo" />
+            </div>
+            <div class="team__body">
+              <h3 class="team__name">Sophia Martin</h3>
+              <div class="team__role">Reservation Manager</div>
+              <div class="team__contact">
+                <div>📞 <a href="tel:+1555000111">+1 (555) 000-111</a></div>
+                <div>✉️ <a href="mailto:sophia@lesterhotel.com">sophia@lesterhotel.com</a></div>
+              </div>
+              <div class="team__actions">
+                <button class="btn btn--primary" type="button" data-chat="1">Live Chat</button>
+                <button class="btn" type="button" data-schedule>Available: 9:00 AM – 6:00 PM</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="team" data-animate>
+            <div class="team__media">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=70" alt="Guest Relations Officer photo" />
+            </div>
+            <div class="team__body">
+              <h3 class="team__name">Amelia Clarke</h3>
+              <div class="team__role">Guest Relations Officer</div>
+              <div class="team__contact">
+                <div>📞 <a href="tel:+1555000222">+1 (555) 000-222</a></div>
+                <div>✉️ <a href="mailto:amelia@lesterhotel.com">amelia@lesterhotel.com</a></div>
+              </div>
+              <div class="team__actions">
+                <button class="btn btn--primary" type="button" data-chat="1">Live Chat</button>
+                <button class="btn" type="button" data-schedule>Available: 10:00 AM – 7:00 PM</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="team" data-animate>
+            <div class="team__media">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=70" alt="Event Coordinator photo" />
+            </div>
+            <div class="team__body">
+              <h3 class="team__name">Noah Bennett</h3>
+              <div class="team__role">Event Coordinator</div>
+              <div class="team__contact">
+                <div>📞 <a href="tel:+1555000333">+1 (555) 000-333</a></div>
+                <div>✉️ <a href="mailto:noah@lesterhotel.com">noah@lesterhotel.com</a></div>
+              </div>
+              <div class="team__actions">
+                <button class="btn btn--primary" type="button" data-chat="1">Live Chat</button>
+                <button class="btn" type="button" data-schedule>Available: 11:00 AM – 8:00 PM</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="team" data-animate>
+            <div class="team__media">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=600&q=70" alt="Concierge Manager photo" />
+            </div>
+            <div class="team__body">
+              <h3 class="team__name">Isabella Reed</h3>
+              <div class="team__role">Concierge Manager</div>
+              <div class="team__contact">
+                <div>📞 <a href="tel:+1555000444">+1 (555) 000-444</a></div>
+                <div>✉️ <a href="mailto:isabella@lesterhotel.com">isabella@lesterhotel.com</a></div>
+              </div>
+              <div class="team__actions">
+                <button class="btn btn--primary" type="button" data-chat="1">Live Chat</button>
+                <button class="btn" type="button" data-schedule>Available: 9:30 AM – 6:30 PM</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" aria-label="Testimonials">
+      <div class="container">
+        <h2 class="section-title" data-animate>Testimonials</h2>
+        <p class="section-subtitle" data-animate>
+          Trusted experiences from guests who value comfort, detail, and exceptional service.
+        </p>
+
+        <div class="carousel" data-animate>
+          <div class="carousel__track" data-carousel-track>
+            <div class="tslide">
+              <div class="review">
+                <div class="stars">★★★★★</div>
+                <p>
+                  “Every detail felt intentional. The staff anticipated what we needed, and the suite was immaculate.
+                  Premium experience from check-in to departure.”
+                </p>
+                <div class="reviewer">
+                  <strong>Olivia S.</strong>
+                  <span style="color: rgba(251,246,238,.70); font-size: 13px;">Couple stay · 3 nights</span>
+                </div>
+              </div>
+              <div class="review-photo">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=70" alt="Guest photo testimonial" />
+              </div>
+            </div>
+
+            <div class="tslide">
+              <div class="review">
+                <div class="stars">★★★★★</div>
+                <p>
+                  “The dining was outstanding and the spa experience was beyond expectations. Secure booking and smooth
+                  communication throughout.”
+                </p>
+                <div class="reviewer">
+                  <strong>Daniel K.</strong>
+                  <span style="color: rgba(251,246,238,.70); font-size: 13px;">Business trip · 2 nights</span>
+                </div>
+              </div>
+              <div class="review-photo">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=70" alt="Guest photo testimonial" />
+              </div>
+            </div>
+
+            <div class="tslide">
+              <div class="review">
+                <div class="stars">★★★★★</div>
+                <p>
+                  “Beautiful suite, calm ambiance, and exceptional staff. The gallery and amenities are exactly as promised.
+                  Highly recommended.”
+                </p>
+                <div class="reviewer">
+                  <strong>Mia R.</strong>
+                  <span style="color: rgba(251,246,238,.70); font-size: 13px;">Family vacation · 4 nights</span>
+                </div>
+              </div>
+              <div class="review-photo">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=800&q=70" alt="Guest photo testimonial" />
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel__controls">
+            <div class="dots" aria-label="Testimonial pagination">
+              <button class="dotbtn" type="button" data-index="0" aria-label="Go to testimonial 1"></button>
+              <button class="dotbtn" type="button" data-index="1" aria-label="Go to testimonial 2"></button>
+              <button class="dotbtn" type="button" data-index="2" aria-label="Go to testimonial 3"></button>
+            </div>
+            <button class="btn" type="button" aria-label="Previous" data-carousel-prev>Prev</button>
+            <button class="btn" type="button" aria-label="Next" data-carousel-next>Next</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Special Offers -->
+    <section class="section" aria-label="Special offers">
+      <div class="container">
+        <h2 class="section-title" data-animate>Special Offers &amp; Promotions</h2>
+        <p class="section-subtitle" data-animate>Seasonal discounts, curated packages, and limited-time guest favorites.</p>
+
+        <div class="grid-4">
+          <div class="offer" data-animate>
+            <div class="offer__media">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1100&q=70" alt="Seasonal discount" />
+            </div>
+            <div class="offer__body">
+              <h3 class="offer__title">Seasonal Discount</h3>
+              <p class="offer__text">Save up to <strong style="color: var(--gold2);">18%</strong> on select dates.</p>
+              <div class="offer__footer">
+                <span class="pill">Limited-time</span>
+                <a class="btn btn--primary" href="#book" style="padding:10px 12px; border-radius:14px;">Claim</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer" data-animate>
+            <div class="offer__media">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1100&q=70" alt="Honeymoon package" />
+            </div>
+            <div class="offer__body">
+              <h3 class="offer__title">Honeymoon Package</h3>
+              <p class="offer__text">Romantic suite setup, welcome drinks, and late check-out.</p>
+              <div class="offer__footer">
+                <span class="pill">Most booked</span>
+                <a class="btn btn--primary" href="#contact" style="padding:10px 12px; border-radius:14px;">Inquire</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer" data-animate>
+            <div class="offer__media">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1100&q=70" alt="Corporate packages" />
+            </div>
+            <div class="offer__body">
+              <h3 class="offer__title">Corporate Packages</h3>
+              <p class="offer__text">Flexible meeting spaces, concierge support, and curated menus.</p>
+              <div class="offer__footer">
+                <span class="pill">Business-ready</span>
+                <a class="btn btn--primary" href="#contact" style="padding:10px 12px; border-radius:14px;">Request</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer" data-animate>
+            <div class="offer__media">
+              <img loading="lazy" src="https://www.sanignaciobelize.com/Portals/0/blog/2018-03%20Family%20Accommodation/family-vacation-01.jpg?ver=2018-03-02-131603-430" alt="Family vacation deal" />
+            </div>
+            <div class="offer__body">
+              <h3 class="offer__title">Family Vacation Deals</h3>
+              <p class="offer__text">Comfort across room configurations and child-friendly service options.</p>
+              <div class="offer__footer">
+                <span class="pill">Family favorite</span>
+                <a class="btn btn--primary" href="#book" style="padding:10px 12px; border-radius:14px;">Book</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nearby Attractions + Map -->
+    <section class="section" aria-label="Nearby attractions">
+      <div class="container">
+        <h2 class="section-title" data-animate>Nearby Attractions</h2>
+        <p class="section-subtitle" data-animate>Curated local highlights—perfect for morning strolls and evening plans.</p>
+
+        <div class="attr-grid">
+          <div class="attr" data-animate>
+            <div class="attr__media"><img loading="lazy" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=70" alt="Beaches" /></div>
+            <div class="attr__body"><h3 class="attr__title">Beaches</h3><p class="attr__text">Golden sunsets and calm, walkable shorelines.</p></div>
+          </div>
+          <div class="attr" data-animate>
+            <div class="attr__media"><img loading="lazy" src="https://ifmst.org/wp-content/uploads/2025/01/palawan-philippines-coron-cr-alamy_11zon.jpg" alt="Tourist attractions" /></div>
+            <div class="attr__body"><h3 class="attr__title">Tourist Attractions</h3><p class="attr__text">Iconic landmarks with guided experiences.</p></div>
+          </div>
+          <div class="attr" data-animate>
+            <div class="attr__media"><img loading="lazy" src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=70" alt="Shopping" /></div>
+            <div class="attr__body"><h3 class="attr__title">Shopping Centers</h3><p class="attr__text">Luxury boutiques and curated local brands.</p></div>
+          </div>
+          <div class="attr" data-animate>
+            <div class="attr__media"><img loading="lazy" src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=70" alt="Restaurants" /></div>
+            <div class="attr__body"><h3 class="attr__title">Restaurants</h3><p class="attr__text">Fine dining, casual bites, and late-night favorites.</p></div>
+          </div>
+          <div class="attr" data-animate>
+            <div class="attr__media"><img loading="lazy" src="https://static.vecteezy.com/system/resources/thumbnails/010/703/148/small/map-pin-location-icon-isolated-on-circle-background-vector.jpg" alt="Local landmarks" /></div>
+            <div class="attr__body"><h3 class="attr__title">Local Landmarks</h3><p class="attr__text">History-rich sights and photo-worthy streets.</p></div>
+          </div>
+          <div class="attr" data-animate>
+            <div class="attr__media"><img loading="lazy" src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=900&q=70" alt="Evening spots" /></div>
+            <div class="attr__body"><h3 class="attr__title">Evening Spots</h3><p class="attr__text">Live music, beautiful views, and warm vibes.</p></div>
+          </div>
+        </div>
+
+        <div class="map-row">
+          <div class="map-card" data-animate>
+            <iframe loading="lazy" title="Hotel location map" src="https://www.google.com/maps?q=Cebu%20City%20&output=embed" aria-label="Google Maps showing hotel location"></iframe>
+          </div>
+          <div class="side" data-animate>
+            <h3>Local Concierge Tips</h3>
+            <p>Ask our concierge for curated day plans, restaurant reservations, and accessible routing.</p>
+            <div class="list">
+              <div class="contact-link"><strong>Best visiting time</strong><span style="color: var(--gold2); font-weight:900;">Sunset hours</span></div>
+              <div class="contact-link"><strong>Suggested transport</strong><span style="color: var(--gold2); font-weight:900;">Car + walk</span></div>
+              <div class="contact-link"><strong>Accessibility help</strong><a href="#contact">Request support</a></div>
+            </div>
+            <div style="margin-top: 14px; display:flex; gap: 12px; flex-wrap:wrap;">
+              <a class="btn btn--primary" href="#contact">Talk to Concierge</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" aria-label="Frequently asked questions">
+      <div class="container">
+        <h2 class="section-title" data-animate>FAQ</h2>
+        <p class="section-subtitle" data-animate>Quick answers for check-in, policies, parking, upgrades, and payments.</p>
+
+        <div class="faq" role="region" aria-label="FAQ list">
+          <div class="faq-item" data-faq-item data-animate>
+            <button class="faq-q" type="button" aria-expanded="false">
+              <span>What are the check-in and check-out times?</span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-a"><p>Check-in starts at <strong style="color: var(--gold2);">3:00 PM</strong>. Check-out is at <strong style="color: var(--gold2);">11:00 AM</strong>. Late check-out is available upon request.</p></div>
+          </div>
+
+          <div class="faq-item" data-faq-item data-animate>
+            <button class="faq-q" type="button" aria-expanded="false">
+              <span>What is the cancellation policy?</span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-a"><p>Flexible cancellations are available based on your rate. Standard reservations typically offer free cancellation up to 48 hours before arrival.</p></div>
+          </div>
+
+          <div class="faq-item" data-faq-item data-animate>
+            <button class="faq-q" type="button" aria-expanded="false">
+              <span>Which payment methods do you accept?</span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-a"><p>We accept major credit cards and secure online payments. You can also request invoice options for corporate stays.</p></div>
+          </div>
+
+          <div class="faq-item" data-faq-item data-animate>
+            <button class="faq-q" type="button" aria-expanded="false">
+              <span>Is parking available?</span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-a"><p>On-site parking is available. Availability and fees may vary depending on date and availability.</p></div>
+          </div>
+
+          <div class="faq-item" data-faq-item data-animate>
+            <button class="faq-q" type="button" aria-expanded="false">
+              <span>Do you allow pets?</span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-a"><p>Selected rooms are pet-friendly. Please contact us in advance so we can confirm availability and any applicable fees.</p></div>
+          </div>
+
+          <div class="faq-item" data-faq-item data-animate>
+            <button class="faq-q" type="button" aria-expanded="false">
+              <span>How do room upgrades work?</span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="faq-a"><p>Upgrades are subject to availability. For the best options, book early and contact guest relations to request an upgrade.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section" aria-label="Contact">
+      <div class="container">
+        <h2 class="section-title" data-animate>Contact Us</h2>
+        <p class="section-subtitle" data-animate>
+          Send a message and our guest relations team will respond quickly. For urgent needs, use phone or WhatsApp.
+        </p>
+
+        <div class="contact-grid">
+          <form id="contactForm" class="form" data-animate>
+            <div class="form-grid">
+              <div class="field">
+                <span class="label">Full Name</span>
+                <input class="input" type="text" name="name" placeholder="Your name" required />
+              </div>
+              <div class="field">
+                <span class="label">Email Address</span>
+                <input class="input" type="email" name="email" placeholder="you@example.com" required />
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <span class="label">Phone (optional)</span>
+                <input class="input" type="tel" name="phone" placeholder="+63 917 123 4567" />
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <span class="label">Message</span>
+                <textarea class="input textarea" name="message" placeholder="How can we help?" required></textarea>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" type="submit">Send Message</button>
+                <a class="btn" href="tel:+1555000000">Call Hotel</a>
+              </div>
+            </div>
+          </form>
+
+          <aside class="side" data-animate>
+            <h3>Direct Support</h3>
+            <p>Prefer instant communication? Use these contact options.</p>
+
+            <div class="list">
+              <div class="contact-link">
+                <strong>Telepono</strong>
+                <a href="#">+63 917 123 4567</a>
+              </div>
+
+              <div class="contact-link">
+                <strong>Email</strong>
+                <a href="mailto:reservations@lesterhotel.com">reservations@lesterhotel.com</a>
+              </div>
+
+              <div class="contact-link">
+                <strong>Live Chat</strong>
+                <button type="button" class="btn btn--primary" style="padding:10px 12px;" data-open-chat>
+                  chat now
+                </button>
+              </div>
+
+              <div class="contact-link">
+                <strong>WhatsApp</strong>
+                <a href="#" target="_blank" rel="noreferrer">
+                  Send a Message
+                </a>
+              </div>
+
+              <div class="contact-link">
+                <strong>Emergency Hotline</strong>
+                <a href="tel:+639991234567">+63 999 123 4567</a>
+              </div>
+            </div>
+
+            <div class="social-row" aria-label="Social media">
+              <a class="social" href="#" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" stroke-width="2"/>
+                  <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+              </a>
+              <a class="social" href="#" aria-label="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M14 9h3V6h-3c-2 0-4 2-4 4v3H7v3h3v7h3v-7h3l1-3h-4v-3c0-1 1-1 1-1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <a class="social" href="#" aria-label="X / Twitter">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M7 17L17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M7 7l10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </a>
+            </div>
+
+            <div class="copy">For faster assistance, include your dates and preferred room type.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer aria-label="Footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-card">
+            <h3>Newsletter</h3>
+            <p style="margin:0; color: rgba(251,246,238,.78); line-height:1.7;">
+              Receive seasonal promotions, premium offers, and curated local tips.
+            </p>
+            <form class="newsletter" id="newsletterForm">
+              <input class="input" type="email" name="email" placeholder="Your email" required />
+              <button class="btn btn--primary" type="submit" style="padding: 12px 14px; border-radius: 14px;">Subscribe</button>
+            </form>
+
+            <div class="social-row">
+              <a class="social" href="#" aria-label="Instagram">IG</a>
+              <a class="social" href="#" aria-label="Facebook">FB</a>
+              <a class="social" href="#" aria-label="YouTube">YT</a>
+            </div>
+          </div>
+
+          <div class="footer-card">
+            <h3>Quick Links</h3>
+            <div class="footer-links">
+              <a href="#rooms">Rooms &amp; Suites</a>
+              <a href="#amenities">Amenities</a>
+              <a href="#gallery">Gallery</a>
+              <a href="#about">Why Choose</a>
+              <a href="#contact">Contact</a>
+            </div>
+          </div>
+
+          <div class="footer-card">
+            <h3>Contact Information</h3>
+            <div class="footer-links">
+              <a href="tel:+639">Phone: +63 917 123 4567</a>
+              <a href="mailto:reservations@lesterhotel.com">Email: reservations@lesterhotel.com</a>
+              <a href="#">Address: Luxury Avenue, Suite 100</a>
+            </div>
+            <div class="copy">© <span id="year"></span> Lester Luxury Hotel. All rights reserved.</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Sticky booking CTA -->
+  <div class="sticky-book" aria-hidden="true">
+    <a class="btn btn--primary" href="#book">
+      Book Now
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Live chat widget -->
+  <div class="chat-widget" aria-label="Live chat widget">
+    <button class="chat-btn" type="button" aria-label="Open live chat" data-open-chat>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M7.5 9h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M7.5 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="chat-panel" role="dialog" aria-modal="false" aria-label="Chat panel">
+      <div class="chat-header">
+        <strong>Guest Relations</strong>
+        <button class="icon-btn chat-close" type="button" aria-label="Close chat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="chat-body">
+        Premium support is online. Send a message request and we’ll connect you to the right team member.
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+          <span class="pill">Fast replies</span>
+          <span class="pill">Secure booking help</span>
+        </div>
+      </div>
+      <div class="chat-actions">
+        <button class="btn btn--primary" type="button" data-chat-message>Start Chat</button>
+        <button class="btn" type="button" data-chat-close>Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container (used by booking form) -->
+  <div class="toast" aria-live="polite" role="status" style="display:none;"></div>
+
+  <script src="js/main.js"></script>
+
+  <script>
+    // Small extras: testimonials prev/next, contact/newsletter handlers, chat widget bridging.
+    (function(){
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const data = Object.fromEntries(new FormData(contactForm).entries());
+          const toast = document.querySelector('.toast');
+          if (toast) {
+            toast.textContent = `Message sent. Thank you, ${data.name || 'guest'}!`;
+            toast.style.display = 'block';
+            toast.style.position = 'fixed';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.bottom = '18px';
+            toast.style.padding = '12px 14px';
+            toast.style.zIndex = '999';
+            toast.style.borderRadius = '16px';
+            toast.style.border = '1px solid rgba(214,178,94,.35)';
+            toast.style.background = 'rgba(214,178,94,.10)';
+            toast.style.color = 'var(--beige)';
+            toast.style.fontWeight = '800';
+            window.setTimeout(() => {
+              toast.style.display = 'none';
+            }, 3200);
+          }
+          contactForm.reset();
+        });
+      }
+
+      const newsletterForm = document.getElementById('newsletterForm');
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          newsletterForm.reset();
+          const toast = document.querySelector('.toast');
+          if (toast) {
+            toast.textContent = 'Subscribed successfully. Welcome to premium updates!';
+            toast.style.display = 'block';
+            toast.style.position = 'fixed';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.bottom = '18px';
+            toast.style.padding = '12px 14px';
+            toast.style.zIndex = '999';
+            toast.style.borderRadius = '16px';
+            toast.style.border = '1px solid rgba(214,178,94,.35)';
+            toast.style.background = 'rgba(214,178,94,.10)';
+            toast.style.color = 'var(--beige)';
+            toast.style.fontWeight = '800';
+            window.setTimeout(() => {
+              toast.style.display = 'none';
+            }, 3200);
+          }
+        });
+      }
+
+      // Better prev/next controls for testimonials
+      const track = document.querySelector('[data-carousel-track]');
+      const slides = Array.from(document.querySelectorAll('.tslide'));
+      const dotBtns = Array.from(document.querySelectorAll('.dotbtn[data-index]'));
+      const applyIndex = (idx) => {
+        if (!track || !slides.length) return;
+        const index = ((idx % slides.length) + slides.length) % slides.length;
+        track.style.transform = `translateX(-${index * 100}%)`;
+        for (const b of dotBtns) {
+          const di = Number(b.getAttribute('data-index'));
+          b.classList.toggle('dotbtn--active', di === index);
+        }
+      };
+      let current = 0;
+      window.__prevTestimonial = () => { current -= 1; applyIndex(current); };
+      window.__nextTestimonial = () => { current += 1; applyIndex(current); };
+      // Initialize dots
+      if (dotBtns.length) {
+        dotBtns.forEach(b => b.classList.remove('dotbtn--active'));
+        dotBtns[0].classList.add('dotbtn--active');
+      }
+
+      // Chat bridging: open panel from any button
+      const openBtns = document.querySelectorAll('[data-chat="1"], [data-open-chat]');
+      const chatBtn = document.querySelector('[data-chat-toggle]');
+      const panel = document.querySelector('.chat-panel');
+      const openPanel = () => panel && panel.classList.add('chat-panel--open');
+      const closePanel = () => panel && panel.classList.remove('chat-panel--open');
+
+      openBtns.forEach(btn => btn.addEventListener('click', openPanel));
+      if (chatBtn) chatBtn.addEventListener('click', () => {
+        if (!panel) return;
+        panel.classList.toggle('chat-panel--open');
+      });
+
+      const close1 = document.querySelector('.chat-close');
+      const close2 = document.querySelector('[data-chat-close]');
+      if (close1) close1.addEventListener('click', closePanel);
+      if (close2) close2.addEventListener('click', closePanel);
+
+      const scheduleBtns = document.querySelectorAll('[data-schedule]');
+      scheduleBtns.forEach(b => b.addEventListener('click', () => {
+        const toast = document.querySelector('.toast');
+        if (toast) {
+          toast.textContent = 'Schedule availability saved. Chat to confirm a time.';
+          toast.style.display = 'block';
+          toast.style.position = 'fixed';
+          toast.style.left = '50%';
+          toast.style.transform = 'translateX(-50%)';
+          toast.style.bottom = '18px';
+          toast.style.padding = '12px 14px';
+          toast.style.zIndex = '999';
+          toast.style.borderRadius = '16px';
+          toast.style.border = '1px solid rgba(214,178,94,.35)';
+          toast.style.background = 'rgba(214,178,94,.10)';
+          toast.style.color = 'var(--beige)';
+          toast.style.fontWeight = '800';
+          window.setTimeout(() => { toast.style.display = 'none'; }, 3200);
+        }
+      }));
+    })();
+  </script>
+</body>
+</html>
