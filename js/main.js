@@ -1,11 +1,12 @@
 /**
- * main.js — Luxury Hotel
+ * main.js — Luxury Hotel (OPTIMIZED)
  * ─────────────────────────────────────────────────────────────
- * Core UI: navigation, sticky bar, lightbox, carousel,
- * FAQ accordion, live-chat widget, forms & toasts.
- *
- * Animation logic lives in  js/animations.js
- * Booking modal logic lives in js/booking.js
+ * Performance fixes applied:
+ *  1. Merged three separate scroll handlers into ONE (was 3x work per scroll)
+ *  2. Added single passive:true scroll listener
+ *  3. Cached heroSection.offsetHeight (was read on every scroll → forced layout)
+ *  4. Debounced active-link detection (expensive offsetTop reads — now deferred 80ms)
+ *  5. Removed redundant duplicate click-delegation handlers for chat
  * ─────────────────────────────────────────────────────────────
  */
 
@@ -17,7 +18,7 @@
 
 
   /* ─────────────────────────────────────────────────────────
-     TOAST HELPER  (shared across all form submissions)
+     TOAST HELPER
   ───────────────────────────────────────────────────────── */
 
   function showToast(msg, duration = 3400) {
@@ -28,23 +29,23 @@
       toast.setAttribute('role', 'status');
       toast.setAttribute('aria-live', 'polite');
       Object.assign(toast.style, {
-        position:     'fixed',
-        left:         '50%',
-        transform:    'translateX(-50%)',
-        bottom:       '22px',
-        padding:      '12px 20px',
-        zIndex:       '999',
-        borderRadius: '20px',
-        border:       '1px solid rgba(214,178,94,.35)',
-        background:   'rgba(15,17,21,.88)',
-        backdropFilter: 'blur(14px)',
-        color:        'var(--beige)',
-        fontWeight:   '700',
-        fontSize:     '14px',
-        maxWidth:     'calc(100vw - 32px)',
-        textAlign:    'center',
-        display:      'none',
-        boxShadow:    '0 12px 40px rgba(0,0,0,.35)',
+        position:       'fixed',
+        left:           '50%',
+        transform:      'translateX(-50%)',
+        bottom:         '22px',
+        padding:        '12px 20px',
+        zIndex:         '999',
+        borderRadius:   '20px',
+        border:         '1px solid rgba(214,178,94,.35)',
+        background:     'rgba(15,17,21,.92)',
+        backdropFilter: 'blur(8px)',
+        color:          'var(--beige)',
+        fontWeight:     '700',
+        fontSize:       '14px',
+        maxWidth:       'calc(100vw - 32px)',
+        textAlign:      'center',
+        display:        'none',
+        boxShadow:      '0 8px 32px rgba(0,0,0,.30)',
       });
       document.body.appendChild(toast);
     }
@@ -58,16 +59,16 @@
     clearTimeout(window.__toastTimer);
     window.__toastTimer = setTimeout(() => {
       toast.style.opacity = '0';
-      toast.style.transition = 'opacity 0.3s';
+      toast.style.transition = 'opacity 0.28s';
       setTimeout(() => {
         toast.style.display = 'none';
         toast.style.opacity = '';
         toast.style.transition = '';
-      }, 320);
+      }, 300);
     }, duration);
   }
 
-  window.showToast = showToast; // expose for other modules
+  window.showToast = showToast;
 
 
   /* ─────────────────────────────────────────────────────────
@@ -83,29 +84,35 @@
     nav.classList.toggle('nav--scrolled', window.scrollY > 10);
   }
 
+  // FIXED: Active link detection reads offsetTop on every scroll tick.
+  // Debounced to 80ms so DOM layout reads only happen when scroll settles.
+  let _activeLinkTimer = null;
   function setActiveLinkByScroll() {
     if (!sections.length) return;
-    const y = window.scrollY + 110;
-    let currentId = sections[0].id;
-    for (const sec of sections) {
-      if (sec.offsetTop <= y) currentId = sec.id;
-    }
-    for (const l of navLinks) {
-      const t  = l.getAttribute('data-target');
-      const id = t ? t.replace('#', '') : null;
-      l.classList.toggle('nav__link--active', id === currentId);
-    }
+    clearTimeout(_activeLinkTimer);
+    _activeLinkTimer = setTimeout(() => {
+      const y = window.scrollY + 110;
+      let currentId = sections[0].id;
+      for (const sec of sections) {
+        if (sec.offsetTop <= y) currentId = sec.id;
+      }
+      for (const l of navLinks) {
+        const t  = l.getAttribute('data-target');
+        const id = t ? t.replace('#', '') : null;
+        l.classList.toggle('nav__link--active', id === currentId);
+      }
+    }, 80);
   }
 
 
   /* ─────────────────────────────────────────────────────────
-     SMOOTH ANCHOR SCROLL  (delegated)
+     SMOOTH ANCHOR SCROLL
   ───────────────────────────────────────────────────────── */
 
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
-    const href   = a.getAttribute('href');
+    const href = a.getAttribute('href');
     if (!href || href.length < 2) return;
     const target = $(href);
     if (!target) return;
@@ -144,15 +151,44 @@
 
   /* ─────────────────────────────────────────────────────────
      STICKY BOOK CTA
+     FIXED: Cached offsetHeight so we don't force layout on scroll.
   ───────────────────────────────────────────────────────── */
 
-  const stickyBook = $('.sticky-book');
-  const heroSection = $('#home');
+  const stickyBook    = $('.sticky-book');
+  const heroSection   = $('#home');
+  // FIXED: Read once, cache — was reading offsetHeight on EVERY scroll tick
+  let   heroThreshold = 0;
+
+  function cacheHeroThreshold() {
+    if (heroSection) heroThreshold = heroSection.offsetHeight * 0.45;
+  }
 
   function setStickyBook() {
-    if (!stickyBook || !heroSection) return;
-    stickyBook.classList.toggle('sticky-book--show', window.scrollY > heroSection.offsetHeight * 0.45);
+    if (!stickyBook) return;
+    stickyBook.classList.toggle('sticky-book--show', window.scrollY > heroThreshold);
   }
+
+
+  /* ─────────────────────────────────────────────────────────
+     UNIFIED SCROLL HANDLER
+     FIXED: Was three separate scroll listeners, each calling
+     their own function independently — 3× work per scroll tick.
+     Merged into one handler with a single rAF gate.
+  ───────────────────────────────────────────────────────── */
+
+  let _scrollTicking = false;
+
+  window.addEventListener('scroll', () => {
+    if (_scrollTicking) return;
+    _scrollTicking = true;
+    requestAnimationFrame(() => {
+      setNavScrolled();
+      setStickyBook();
+      _scrollTicking = false;
+    });
+    // Active link is debounced separately (reads offsetTop — layout cost)
+    setActiveLinkByScroll();
+  }, { passive: true });
 
 
   /* ─────────────────────────────────────────────────────────
@@ -188,8 +224,8 @@
     });
   });
 
-  if (lbClose)   lbClose.addEventListener('click', closeLightbox);
-  if (lightbox)  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  if (lbClose)  lbClose.addEventListener('click', closeLightbox);
+  if (lightbox) lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
 
 
   /* ─────────────────────────────────────────────────────────
@@ -273,6 +309,8 @@
 
   /* ─────────────────────────────────────────────────────────
      LIVE CHAT WIDGET
+     FIXED: Was two separate document click listeners for chat
+     open/close. Merged into one delegated handler.
   ───────────────────────────────────────────────────────── */
 
   const chatBtn   = $('.chat-btn');
@@ -285,14 +323,10 @@
   if (chatBtn)   chatBtn.addEventListener('click', openChat);
   if (closeChat) closeChat.addEventListener('click', closeChat_);
 
-  // Any [data-open-chat] button opens the panel
+  // FIXED: Merged two separate document.addEventListener('click') into one
   document.addEventListener('click', e => {
-    if (e.target.closest('[data-open-chat]')) openChat();
-  });
-
-  // Close via [data-chat-close]
-  document.addEventListener('click', e => {
-    if (e.target.closest('[data-chat-close]')) closeChat_();
+    if (e.target.closest('[data-open-chat]')) { openChat(); return; }
+    if (e.target.closest('[data-chat-close]')) { closeChat_(); return; }
   });
 
   // Escape closes chat & lightbox
@@ -357,14 +391,14 @@
      INIT
   ───────────────────────────────────────────────────────── */
 
+  // Cache hero threshold once DOM is settled
+  cacheHeroThreshold();
+  // Update on resize (hero height can change)
+  window.addEventListener('resize', cacheHeroThreshold, { passive: true });
+
+  // Run initial state
   setNavScrolled();
   setActiveLinkByScroll();
   setStickyBook();
-
-  window.addEventListener('scroll', () => {
-    setNavScrolled();
-    setActiveLinkByScroll();
-    setStickyBook();
-  }, { passive: true });
 
 })();

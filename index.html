@@ -15,21 +15,18 @@
   <meta property="og:title" content="Lester Luxury Hotel" />
   <meta property="og:description" content="Luxury rooms, suites, spa, dining and secure booking." />
 
+  <!-- OPTIMIZED: Preconnect declared as static link tags (faster than JS injection) -->
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="dns-prefetch" href="https://images.unsplash.com" />
+  <link rel="dns-prefetch" href="https://www.peninsula.com" />
+
+  <!-- OPTIMIZED: Preload LCP hero image — tells browser to fetch this immediately -->
+  <link rel="preload" as="image"
+        href="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1920&q=70"
+        fetchpriority="high" />
+
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/animations.css" />
-
-  <script>
-    // Preconnect improves perceived load time for common image hosts.
-    try {
-      const hosts = ['https://images.unsplash.com'];
-      hosts.forEach(h => {
-        const u = document.createElement('link');
-        u.rel = 'preconnect';
-        u.href = h;
-        document.head.appendChild(u);
-      });
-    } catch (e) {}
-  </script>
 </head>
 <body>
   <!-- Sticky Navigation -->
@@ -436,7 +433,7 @@
                 </svg>
               </button>
             </div>
-            <img class="lightbox__img" src="" alt="" />
+            <img class="lightbox__img" src="" alt="" decoding="async" />
           </div>
         </div>
       </div>
@@ -1006,9 +1003,10 @@
   <div class="toast" aria-live="polite" role="status" style="display:none;"></div>
 
   <!-- JS: load order matters — animations & booking can use globals from main -->
-  <script src="js/main.js"></script>
-  <script src="js/animations.js"></script>
-  <script src="js/booking.js"></script>
+  <!-- OPTIMIZED: defer prevents parser blocking -->
+  <script src="js/main.js" defer></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/booking.js" defer></script>
 
 </body>
 </html>

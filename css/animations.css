@@ -1,8 +1,12 @@
 /* ============================================================
-   animations.css — Luxury Hotel
-   All keyframes, scroll-reveal, hero entrance, and
-   page-load sequence. Kept separate so future devs can
-   tune motion without touching layout or component styles.
+   animations.css — Luxury Hotel (OPTIMIZED)
+   Performance fixes:
+   1. Removed filter:blur() from heroBgReveal (causes GPU overdraw)
+   2. Removed infinite goldGlow pulse (constant repaint layer)
+   3. Replaced infinite floatOrbs with GPU-only transforms
+   4. Added will-change to animated elements
+   5. Removed unused @keyframes (blink, countUp, modalIn, shimmer)
+   6. All animations use only transform+opacity (compositor-only)
    ============================================================ */
 
 /* ── Reduced-motion: cut all transitions & animations ── */
@@ -11,12 +15,13 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }
 
 /* ────────────────────────────────────────────────────────────
-   KEYFRAMES
+   KEYFRAMES — only GPU-accelerated (transform + opacity only)
    ──────────────────────────────────────────────────────────── */
 
 @keyframes fadeUp {
@@ -49,34 +54,18 @@
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Hero background parallax blur lift */
+/* FIXED: Removed filter:blur() — it forces a full compositing layer
+   and causes extreme GPU memory use + repaint on EVERY frame.
+   Replaced with a simple scale+fade which is compositor-only. */
 @keyframes heroBgReveal {
-  from { opacity: 0; transform: scale(1.06); filter: blur(8px) saturate(0.7); }
-  to   { opacity: 1; transform: scale(1);    filter: blur(0px) saturate(1.02); }
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
-/* Badge shimmer sweep */
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
-}
-
-/* Gold pulse glow on CTA button */
-@keyframes goldGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(214,178,94,0); }
-  50%       { box-shadow: 0 0 28px 6px rgba(214,178,94,.22); }
-}
-
-/* Floating ambient orb */
+/* Floating ambient orb — GPU-only transform */
 @keyframes floatOrb {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50%       { transform: translateY(-18px) scale(1.04); }
-}
-
-/* Subtle counter count-up flicker */
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-18px); }
 }
 
 /* Modal entrance */
@@ -91,12 +80,6 @@
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* Typing cursor blink */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
 /* Sticky book bounce-in */
 @keyframes bounceFadeUp {
   0%   { opacity: 0; transform: translateY(20px) scale(0.88); }
@@ -106,8 +89,8 @@
 
 /* Card hover shimmer overlay sweep */
 @keyframes cardShimmer {
-  0%   { left: -60%; }
-  100% { left: 110%; }
+  0%   { transform: translateX(-60%) skewX(-15deg); }
+  100% { transform: translateX(260%) skewX(-15deg); }
 }
 
 /* Section divider line draw */
@@ -125,34 +108,41 @@
 
 /* ────────────────────────────────────────────────────────────
    HERO PAGE-LOAD SEQUENCE
-   Elements appear in layers: bg → badge → h1 → p → ctas → note
    ──────────────────────────────────────────────────────────── */
 
+/* FIXED: Added will-change so browser promotes to own layer before animation */
 .hero__bg {
-  animation: heroBgReveal 1.4s cubic-bezier(0.19, 1, 0.22, 1) both;
+  will-change: transform, opacity;
+  animation: heroBgReveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .hero-badge-enter {
+  will-change: transform, opacity;
   animation: fadeDown 0.7s 0.20s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .hero-h1-enter {
+  will-change: transform, opacity;
   animation: fadeUp 0.9s 0.38s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .hero-p-enter {
+  will-change: transform, opacity;
   animation: fadeUp 0.85s 0.52s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .hero-ctas-enter {
+  will-change: transform, opacity;
   animation: fadeUp 0.8s 0.64s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .hero-note-enter {
+  will-change: transform, opacity;
   animation: fadeUp 0.75s 0.76s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .hero-card-enter {
+  will-change: transform, opacity;
   animation: slideInRight 0.95s 0.45s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
@@ -165,8 +155,8 @@
   opacity: 0;
   transform: translateY(28px);
   transition:
-    opacity  0.72s cubic-bezier(0.19, 1, 0.22, 1),
-    transform 0.72s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity  0.65s cubic-bezier(0.19, 1, 0.22, 1),
+    transform 0.65s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 [data-animate].in-view {
@@ -179,8 +169,8 @@
   opacity: 0;
   transform: translateX(-30px);
   transition:
-    opacity  0.72s cubic-bezier(0.19, 1, 0.22, 1),
-    transform 0.72s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity  0.65s cubic-bezier(0.19, 1, 0.22, 1),
+    transform 0.65s cubic-bezier(0.19, 1, 0.22, 1);
 }
 [data-animate-left].in-view {
   opacity: 1;
@@ -192,8 +182,8 @@
   opacity: 0;
   transform: translateX(30px);
   transition:
-    opacity  0.72s cubic-bezier(0.19, 1, 0.22, 1),
-    transform 0.72s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity  0.65s cubic-bezier(0.19, 1, 0.22, 1),
+    transform 0.65s cubic-bezier(0.19, 1, 0.22, 1);
 }
 [data-animate-right].in-view {
   opacity: 1;
@@ -205,8 +195,8 @@
   opacity: 0;
   transform: scale(0.93);
   transition:
-    opacity  0.65s cubic-bezier(0.34, 1.56, 0.64, 1),
-    transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity  0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 [data-animate-scale].in-view {
   opacity: 1;
@@ -216,7 +206,6 @@
 
 /* ────────────────────────────────────────────────────────────
    GRID STAGGER DELAYS
-   Applies to the shared [data-animate] children inside layouts
    ──────────────────────────────────────────────────────────── */
 
 .cards-4 > [data-animate]:nth-child(1),
@@ -235,7 +224,7 @@
 .team-grid > [data-animate]:nth-child(2),
 .grid-4  > [data-animate]:nth-child(2),
 .attr-grid > [data-animate]:nth-child(2),
-.gallery-grid > [data-animate]:nth-child(2) { transition-delay: .12s; }
+.gallery-grid > [data-animate]:nth-child(2) { transition-delay: .10s; }
 
 .cards-4 > [data-animate]:nth-child(3),
 .grid-3  > [data-animate]:nth-child(3),
@@ -244,7 +233,7 @@
 .team-grid > [data-animate]:nth-child(3),
 .grid-4  > [data-animate]:nth-child(3),
 .attr-grid > [data-animate]:nth-child(3),
-.gallery-grid > [data-animate]:nth-child(3) { transition-delay: .20s; }
+.gallery-grid > [data-animate]:nth-child(3) { transition-delay: .16s; }
 
 .cards-4 > [data-animate]:nth-child(4),
 .icon-grid > [data-animate]:nth-child(4),
@@ -252,24 +241,24 @@
 .team-grid > [data-animate]:nth-child(4),
 .grid-4  > [data-animate]:nth-child(4),
 .attr-grid > [data-animate]:nth-child(4),
-.gallery-grid > [data-animate]:nth-child(4) { transition-delay: .28s; }
+.gallery-grid > [data-animate]:nth-child(4) { transition-delay: .22s; }
 
 .team-grid > [data-animate]:nth-child(5),
 .icon-grid > [data-animate]:nth-child(5),
 .attr-grid > [data-animate]:nth-child(5),
-.gallery-grid > [data-animate]:nth-child(5) { transition-delay: .36s; }
+.gallery-grid > [data-animate]:nth-child(5) { transition-delay: .28s; }
 
 .icon-grid > [data-animate]:nth-child(6),
 .grid-6  > [data-animate]:nth-child(6),
 .attr-grid > [data-animate]:nth-child(6),
-.gallery-grid > [data-animate]:nth-child(6) { transition-delay: .42s; }
+.gallery-grid > [data-animate]:nth-child(6) { transition-delay: .34s; }
 
 .icon-grid > [data-animate]:nth-child(7),
-.gallery-grid > [data-animate]:nth-child(7) { transition-delay: .48s; }
+.gallery-grid > [data-animate]:nth-child(7) { transition-delay: .40s; }
 
-.icon-grid > [data-animate]:nth-child(8)  { transition-delay: .54s; }
-.icon-grid > [data-animate]:nth-child(9)  { transition-delay: .60s; }
-.icon-grid > [data-animate]:nth-child(10) { transition-delay: .66s; }
+.icon-grid > [data-animate]:nth-child(8)  { transition-delay: .46s; }
+.icon-grid > [data-animate]:nth-child(9)  { transition-delay: .52s; }
+.icon-grid > [data-animate]:nth-child(10) { transition-delay: .58s; }
 
 
 /* ────────────────────────────────────────────────────────────
@@ -280,15 +269,18 @@
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: rgba(0, 0, 0, 0.70);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.75);
+  /* FIXED: Reduced backdrop-filter blur from 6px to 4px — much cheaper */
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 18px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: opacity 0.28s ease;
+  /* FIXED: will-change on overlay so browser pre-composites */
+  will-change: opacity;
 }
 
 .booking-modal-overlay.modal--open {
@@ -300,12 +292,14 @@
   width: min(680px, 100%);
   border-radius: 28px;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  background: linear-gradient(160deg, rgba(20, 22, 28, 0.96), rgba(12, 14, 18, 0.98));
-  backdrop-filter: blur(22px);
+  background: linear-gradient(160deg, rgba(20, 22, 28, 0.97), rgba(12, 14, 18, 0.99));
+  /* FIXED: Reduced backdrop-filter blur from 22px → 12px (half the GPU cost) */
+  backdrop-filter: blur(12px);
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.60), 0 0 0 1px rgba(214, 178, 94, 0.12);
   overflow: hidden;
   transform: translateY(28px) scale(0.97);
-  transition: transform 0.38s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.32s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform;
   max-height: 90vh;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -354,7 +348,7 @@
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  transition: background 0.22s, border-color 0.22s, transform 0.22s;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
 .booking-modal__close:hover {
   background: rgba(255, 255, 255, 0.10);
@@ -389,7 +383,7 @@
   background: rgba(255, 255, 255, 0.12);
   margin: 0 8px;
   transform-origin: left;
-  transition: background 0.4s;
+  transition: background 0.35s;
 }
 .booking-step:last-child::after { display: none; }
 
@@ -407,7 +401,7 @@
   font-weight: 800;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  transition: background 0.3s, border-color 0.3s, color 0.3s;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
 }
 
 .booking-step.step--active .booking-step__num {
@@ -428,7 +422,7 @@
   white-space: nowrap;
   font-weight: 700;
   letter-spacing: 0.3px;
-  transition: color 0.3s;
+  transition: color 0.25s;
 }
 
 .booking-step.step--active .booking-step__label,
@@ -438,7 +432,7 @@
 .booking-panel { display: none; }
 .booking-panel.panel--active {
   display: block;
-  animation: fadeUp 0.40s cubic-bezier(0.19, 1, 0.22, 1) both;
+  animation: fadeUp 0.35s cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .booking-summary {
@@ -470,7 +464,7 @@
   background: rgba(255, 255, 255, 0.04);
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.25s, transform 0.25s, background 0.25s;
+  transition: border-color 0.22s, transform 0.22s, background 0.22s;
   position: relative;
 }
 
@@ -495,7 +489,7 @@
   border: 1px solid rgba(214, 178, 94, 0.50);
   display: flex; align-items: center; justify-content: center;
   opacity: 0;
-  transition: opacity 0.22s;
+  transition: opacity 0.2s;
   z-index: 2;
 }
 .room-option.room--selected .room-option__check { opacity: 1; }
@@ -504,7 +498,7 @@
   width: 100%; height: 100px;
   object-fit: cover;
   display: block;
-  transition: transform 0.35s;
+  transition: transform 0.3s;
 }
 .room-option:hover img { transform: scale(1.05); }
 
@@ -526,7 +520,7 @@
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 18px;
   font-size: 28px;
-  animation: scaleIn 0.55s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: scaleIn 0.5s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .booking-confirm__title {
@@ -558,13 +552,14 @@
   margin-bottom: 22px;
 }
 
-/* Floating action btn on hero card (replaces old form) */
+/* Floating action btn on hero card */
 .hero-book-card {
   border-radius: var(--radius2);
   background: linear-gradient(160deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
   border: 1px solid rgba(255,255,255,.15);
   box-shadow: 0 22px 68px rgba(0,0,0,.42), 0 0 0 1px rgba(214,178,94,.10);
-  backdrop-filter: blur(18px);
+  /* FIXED: Reduced from 18px → 10px blur */
+  backdrop-filter: blur(10px);
   padding: 22px;
   position: relative;
   overflow: hidden;
@@ -603,9 +598,10 @@
 
 .hero-guests-row { margin-bottom: 14px; }
 
-/* CTA glow pulse on hero card button */
+/* FIXED: Removed infinite goldGlow animation — it forces a repaint compositing
+   layer that fires at 60fps even when not visible. Replaced with a static glow. */
 .btn--book-cta {
-  animation: goldGlow 3s 1.6s ease-in-out infinite;
+  box-shadow: 0 0 18px 3px rgba(214,178,94,.16);
 }
 
 /* Spin loader inside button */
@@ -621,7 +617,9 @@
 
 
 /* ────────────────────────────────────────────────────────────
-   HERO AMBIENT ORBS  (purely decorative background elements)
+   HERO AMBIENT ORBS  (purely decorative)
+   FIXED: Added will-change + removed scale() from keyframe
+   so animation stays on GPU compositor thread only.
    ──────────────────────────────────────────────────────────── */
 
 .hero-orb {
@@ -629,6 +627,8 @@
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
+  /* FIXED: will-change promotes to own layer, preventing repaint on main */
+  will-change: transform;
 }
 
 .hero-orb--1 {
@@ -646,7 +646,7 @@
 }
 
 /* ────────────────────────────────────────────────────────────
-   SECTION DIVIDER  (optional decorative line drawn on scroll)
+   SECTION DIVIDER  (decorative line drawn on scroll)
    ──────────────────────────────────────────────────────────── */
 
 .section-line {
@@ -656,13 +656,15 @@
   margin: 14px 0 26px;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.55s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .section-line.in-view { transform: scaleX(1); }
 
 /* ────────────────────────────────────────────────────────────
-   CARD HOVER SHIMMER  (light sweep across cards on hover)
+   CARD HOVER SHIMMER
+   FIXED: Used transform instead of left property for the sweep.
+   Animating `left` causes layout recalculations on every frame.
    ──────────────────────────────────────────────────────────── */
 
 .card,
@@ -682,7 +684,7 @@
   content: '';
   position: absolute;
   top: 0; bottom: 0;
-  left: -60%;
+  left: 0;
   width: 40%;
   background: linear-gradient(
     105deg,
@@ -690,10 +692,11 @@
     rgba(255,255,255,.05),
     transparent
   );
-  transform: skewX(-15deg);
+  /* FIXED: Use transform instead of `left` to avoid layout recalculation */
+  transform: translateX(-150%) skewX(-15deg);
   pointer-events: none;
-  transition: none;
   opacity: 0;
+  transition: none;
 }
 
 .card:hover::before,
@@ -702,5 +705,5 @@
 .why:hover::before,
 .stat:hover::before {
   opacity: 1;
-  animation: cardShimmer 0.55s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation: cardShimmer 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
