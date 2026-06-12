@@ -124,8 +124,10 @@
     if (!target) return;
     e.preventDefault();
 
-    const mobileMenu = $('.mobile-menu');
-    if (mobileMenu) mobileMenu.classList.remove('mobile-menu--open');
+    // Close mobile menu if open (uses the function that also restores burger icon)
+    if (mobileMenu && mobileMenu.classList.contains('mobile-menu--open')) {
+      closeMobileMenu();
+    }
 
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     history.replaceState(null, '', href);
@@ -134,22 +136,107 @@
 
   /* ─────────────────────────────────────────────────────────
      MOBILE MENU
+     ENHANCED:
+     - Switched from display:none toggle to visibility/opacity
+       (CSS handles transition; JS only adds/removes the class)
+     - Staggered entrance animation on menu links via inline delay
+     - Active link reflected in mobile menu too
+     - Burger morphs into a close (×) icon when menu is open
   ───────────────────────────────────────────────────────── */
 
   const burger     = $('.burger');
   const mobileMenu = $('.mobile-menu');
+  const mobileLinks = $$('.mobile-menu__link');
+
+  // Apply staggered animation delay to each mobile link
+  mobileLinks.forEach((link, i) => {
+    link.style.transitionDelay = `${i * 30}ms`;
+  });
+
+  function syncMobileActiveLink() {
+    const y = window.scrollY + 110;
+    if (!sections.length) return;
+    let currentId = sections[0].id;
+    for (const sec of sections) {
+      if (sec.offsetTop <= y) currentId = sec.id;
+    }
+    mobileLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const id   = href.replace('#', '');
+      link.classList.toggle('mobile-menu__link--active', id === currentId);
+    });
+  }
+
+  function openMobileMenu() {
+    mobileMenu.classList.add('mobile-menu--open');
+    burger.setAttribute('aria-expanded', 'true');
+    burger.setAttribute('aria-label', 'Close menu');
+    // Morph burger to close icon
+    burger.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>`;
+    syncMobileActiveLink();
+    document.body.style.overflow = '';
+  }
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('mobile-menu--open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Open menu');
+    // Restore burger icon
+    burger.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>`;
+  }
 
   if (burger && mobileMenu) {
     burger.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('mobile-menu--open');
-      burger.setAttribute('aria-expanded', open);
+      const isOpen = mobileMenu.classList.contains('mobile-menu--open');
+      isOpen ? closeMobileMenu() : openMobileMenu();
     });
 
     document.addEventListener('click', e => {
       if (!mobileMenu.classList.contains('mobile-menu--open')) return;
       if (!e.target.closest('.nav')) {
-        mobileMenu.classList.remove('mobile-menu--open');
-        burger.setAttribute('aria-expanded', 'false');
+        closeMobileMenu();
+      }
+    });
+
+    // Close menu on Escape key (accessibility)
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('mobile-menu--open')) {
+        closeMobileMenu();
+        burger.focus();
+      }
+    });
+  }
+
+
+  /* ─────────────────────────────────────────────────────────
+     BACK TO TOP BUTTON
+     ENHANCED:
+     - Appears after scrolling past 40% of hero height
+     - Uses visibility/opacity toggle (same pattern as mobile-menu)
+       so CSS transitions fire properly — no display:none flash
+     - Smooth scrolls to #home (respects prefers-reduced-motion
+       via the existing html{scroll-behavior:smooth})
+  ───────────────────────────────────────────────────────── */
+
+  const backToTopBtn = $('#backToTop');
+
+  function setBackToTop() {
+    if (!backToTopBtn) return;
+    const show = window.scrollY > heroThreshold;
+    backToTopBtn.classList.toggle('back-to-top--show', show);
+  }
+
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      const hero = $('#home');
+      if (hero) {
+        hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
   }
@@ -190,6 +277,7 @@
     requestAnimationFrame(() => {
       setNavScrolled();
       setStickyBook();
+      setBackToTop();
       _scrollTicking = false;
     });
     // Active link is debounced separately (reads offsetTop — layout cost)
@@ -406,5 +494,6 @@
   setNavScrolled();
   setActiveLinkByScroll();
   setStickyBook();
+  setBackToTop();
 
 })();

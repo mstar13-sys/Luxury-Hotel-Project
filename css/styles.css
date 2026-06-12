@@ -63,6 +63,16 @@ button{font-family: inherit;}
   font-size: 13px;
 }
 
+/* Hero badge override — needs a darker base to read over the photo */
+.hero .badge{
+  background: rgba(10,10,12,.55);
+  border-color: rgba(214,178,94,.40);
+  color: var(--gold2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-shadow: 0 1px 3px rgba(0,0,0,.40);
+}
+
 .section{
   padding: 78px 0;
   position:relative;
@@ -80,19 +90,22 @@ button{font-family: inherit;}
 }
 
 /* Nav
-   FIXED: Reduced backdrop-filter from 14px → 8px on nav.
-   The nav is fixed/sticky and always painting — cheaper blur = major win. */
+/* Nav — sticky on ALL screen sizes including mobile.
+   IMPORTANT: removed contain:layout style — it creates a new containing block
+   that clips position:absolute children (the mobile-menu). The shadow/bg
+   perf benefits of contain:style are preserved; layout containment is dropped. */
 .nav{
   position:sticky; top:0; z-index:50;
   height: var(--navH);
   display:flex; align-items:center;
-  background: rgba(15,17,21,.60);
+  background: rgba(15,17,21,.70);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition: background .3s, box-shadow .3s;
-  /* FIXED: contain:layout prevents nav layout changes from affecting page layout */
-  contain: layout style;
+  /* Removed contain:layout — it clips the absolute-positioned mobile-menu */
+  contain: style;
 }
-.nav--scrolled{ background: rgba(15,17,21,.82); box-shadow: 0 8px 24px rgba(0,0,0,.28); }
+.nav--scrolled{ background: rgba(15,17,21,.90); box-shadow: 0 8px 28px rgba(0,0,0,.32); }
 .nav__inner{display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%;}
 .brand{display:flex; align-items:center; gap:12px; flex-shrink:0; min-width:0;}
 .brand__mark{
@@ -161,41 +174,119 @@ button{font-family: inherit;}
   border-color: rgba(255,255,255,.12);
 }
 
+/* ── Hero-specific CTA overrides ──────────────────────────────────────────
+   The global .btn styles use near-transparent backgrounds designed for dark
+   section cards. Over a photographic background those colours vanish.
+   These overrides apply ONLY inside .hero__ctas and give both buttons
+   a solid, opaque reading surface without touching styles elsewhere.
+   ───────────────────────────────────────────────────────────────────────── */
+.hero__ctas .btn--primary{
+  /* Solid gold-tinted pill: fully opaque so the label is always legible */
+  background: linear-gradient(160deg, #c9a84c, #a8742a);
+  border-color: rgba(255,255,255,.18);
+  color: #fff8e8;
+  font-weight: 750;
+  font-size: 15px;
+  padding: 15px 26px;
+  letter-spacing: .2px;
+  box-shadow:
+    0 4px 18px rgba(0,0,0,.50),
+    0 1px 0 rgba(255,255,255,.12) inset,
+    0 0 0 1px rgba(200,164,76,.60);
+  text-shadow: 0 1px 3px rgba(0,0,0,.35);
+}
+.hero__ctas .btn--primary:hover{
+  background: linear-gradient(160deg, #d9b85c, #b8842a);
+  box-shadow:
+    0 8px 28px rgba(0,0,0,.55),
+    0 1px 0 rgba(255,255,255,.16) inset,
+    0 0 0 1px rgba(220,184,96,.65);
+  transform: translateY(-3px);
+}
+.hero__ctas .btn--primary:active{
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(0,0,0,.45);
+}
+
+.hero__ctas .btn--ghost{
+  /* Frosted dark pill: opaque enough to anchor the label over the photo */
+  background: rgba(10,10,12,.62);
+  border: 1.5px solid rgba(255,255,255,.32);
+  color: rgba(251,246,238,.96);
+  font-weight: 650;
+  font-size: 15px;
+  padding: 15px 26px;
+  letter-spacing: .2px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 18px rgba(0,0,0,.45);
+  text-shadow: 0 1px 4px rgba(0,0,0,.50);
+}
+.hero__ctas .btn--ghost:hover{
+  background: rgba(20,20,24,.72);
+  border-color: rgba(242,215,134,.55);
+  color: var(--gold2);
+  box-shadow: 0 8px 26px rgba(0,0,0,.50);
+  transform: translateY(-3px);
+}
+
 /* Mobile nav */
 .burger{display:none;}
 .mobile-menu{
-  display:none;
+  /* Use visibility+opacity instead of display:none so CSS transitions actually fire.
+     display:none collapses the element before the transition can animate — 
+     visibility:hidden keeps it in layout but invisible, allowing smooth in/out. */
   position:absolute;
   left:0; right:0;
-  /* FIX: Explicit width:100% prevents the menu from being wider than the nav
-     container in edge cases where the nav uses contain:layout */
   width: 100%;
   top: calc(var(--navH));
-  padding: 18px 20px 26px;
-  background: rgba(15,17,21,.94);
-  backdrop-filter: blur(8px);
-  border-top:1px solid rgba(255,255,255,.10);
-  transform: translateY(-12px);
+  padding: 14px 16px 20px;
+  background: rgba(12,14,18,.97);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top:1px solid rgba(214,178,94,.12);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  box-shadow: 0 16px 40px rgba(0,0,0,.50);
+  transform: translateY(-10px);
   opacity: 0;
-  transition: transform .3s var(--ease-out-expo), opacity .3s;
-  /* FIX: Prevent menu items from causing horizontal overflow */
+  visibility: hidden;
+  /* Smooth open/close animation — both opacity and transform transition together */
+  transition: transform .32s var(--ease-out-expo), opacity .28s ease, visibility 0s linear .28s;
   overflow-x: hidden;
+  /* Ensure menu items can't escape nav stacking context */
+  z-index: 49;
 }
 .mobile-menu--open{
-  display:block;
   transform: translateY(0);
   opacity: 1;
+  visibility: visible;
+  /* Cancel visibility delay so it shows immediately on open */
+  transition: transform .32s var(--ease-out-expo), opacity .28s ease, visibility 0s linear 0s;
 }
-.mobile-menu__grid{display:grid; gap:10px;}
+.mobile-menu__grid{display:grid; gap:8px;}
 .mobile-menu__link{
-  padding:14px 12px;
-  border-radius: 16px;
-  border:1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.05);
-  color: rgba(251,246,238,.86);
-  transition: background .2s, border-color .2s;
+  padding:15px 16px;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.04);
+  color: rgba(251,246,238,.90);
+  font-size: 15px;
+  font-weight: 550;
+  display: flex;
+  align-items: center;
+  /* Staggered entry animation applied via nth-child in JS */
+  transition: background .2s, border-color .2s, transform .2s var(--ease-out-expo);
 }
-.mobile-menu__link:hover{background: rgba(255,255,255,.09); border-color: rgba(214,178,94,.35);}
+.mobile-menu__link:hover{
+  background: rgba(255,255,255,.08);
+  border-color: rgba(214,178,94,.30);
+  transform: translateX(4px);
+}
+.mobile-menu__link--active{
+  color: var(--gold2);
+  border-color: rgba(214,178,94,.30);
+  background: rgba(214,178,94,.07);
+}
 
 /* Hero */
 .hero{
@@ -213,47 +304,54 @@ button{font-family: inherit;}
 .hero__bg{
   position:absolute; inset:0;
   background:
-    linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.66)),
     url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1920&q=70') center/cover no-repeat;
-  /* FIXED: Removed filter:saturate/contrast from hero background — any CSS filter on a
-     large background image creates a massive compositing layer. Pure GPU cost with no
-     visible benefit at these minor values (1.02 saturate, 1.02 contrast). */
 }
-/* FIXED: Removed backdrop-filter:blur(10px) from hero::after pseudo-element.
-   This was blurring an already-rendered full-viewport layer — extremely expensive.
-   The visual overlay effect is preserved via the gradient alone. */
+/* Enhanced overlay: multi-layer gradient for superior text contrast on all screens.
+   Bottom-weighted darkening ensures CTAs and description are always legible.
+   Radial gold accent preserved at top-left for brand warmth without obscuring text. */
 .hero__bg::after{
   content:"";
   position:absolute; inset:0;
-  background: radial-gradient(700px 380px at 30% 20%, rgba(214,178,94,.18), rgba(0,0,0,0) 62%),
-              linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55));
-  opacity: .9;
+  background:
+    radial-gradient(800px 500px at 15% 30%, rgba(214,178,94,.13), transparent 45%),
+    linear-gradient(160deg, rgba(0,0,0,.52) 0%, rgba(0,0,0,.20) 60%, rgba(0,0,0,.70) 100%),
+    linear-gradient(0deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.30) 75%);
 }
-.hero__content{position:relative; z-index:2;}
+.hero__content{
+  position:relative;
+  z-index:2;
+  /* Subtle frosted text-area backdrop on desktop for extra legibility */
+}
 .hero-grid{
   display:grid;
   grid-template-columns: 1.12fr .88fr;
-  gap: 28px;
-  align-items:start;
+  gap: 32px;
+  align-items:center;
 }
 
 /* Prevent fixed widgets from visually overlapping section content */
 section, footer, main{scroll-margin-top: calc(var(--navH) + 14px);}
 
 .hero h1{
-  margin: 12px 0 10px;
-  font-size: clamp(34px, 4.4vw, 60px);
-  letter-spacing: .2px;
-  line-height:1.05;
+  margin: 14px 0 12px;
+  font-size: clamp(34px, 4.4vw, 62px);
+  letter-spacing: -.3px;
+  line-height:1.04;
+  /* Text-shadow adds depth and dramatically improves legibility on the photo background */
+  text-shadow: 0 2px 24px rgba(0,0,0,.55), 0 1px 4px rgba(0,0,0,.45);
+  color: var(--cream);
 }
 .hero p{
   margin:0;
-  color: rgba(251,246,238,.78);
+  color: rgba(251,246,238,.90);
   line-height:1.75;
-  font-size: 16px;
+  font-size: 16.5px;
+  /* Subtle shadow ensures readability even over lighter parts of the bg image */
+  text-shadow: 0 1px 8px rgba(0,0,0,.50);
+  max-width: 520px;
 }
 
-.hero__ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top: 22px;}
+.hero__ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top: 26px;}
 
 .form-card{
   border-radius: var(--radius2);
@@ -285,8 +383,19 @@ section, footer, main{scroll-margin-top: calc(var(--navH) + 14px);}
 .form-actions{grid-column: 1 / -1; display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-top: 6px;}
 .form-actions .btn{flex:1; min-width: 160px;}
 
-.hero__note{margin-top: 10px; color: rgba(251,246,238,.70); font-size: 13px; display:flex; gap:10px; align-items:flex-start;}
-.dot{width:8px; height:8px; border-radius:999px; background: var(--gold); margin-top: 7px; flex-shrink:0;}
+.hero__note{
+  margin-top: 14px;
+  color: rgba(251,246,238,.88);
+  font-size: 13px;
+  display:flex; gap:10px; align-items:flex-start;
+  background: rgba(0,0,0,.28);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 10px 14px;
+  backdrop-filter: blur(4px);
+  max-width: 520px;
+}
+.dot{width:8px; height:8px; border-radius:999px; background: var(--gold); margin-top: 5px; flex-shrink:0;}
 
 /* Highlights */
 .cards-4{display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 28px;}
@@ -589,6 +698,56 @@ section, footer, main{scroll-margin-top: calc(var(--navH) + 14px);}
   border-radius: 18px;
   white-space: nowrap;
 }
+
+/* Back to Top button
+   Positioned centered (left:50%) to avoid overlapping both the chat widget (left)
+   and the sticky Book Now button (right). On mobile it shifts right-of-center
+   to maintain visual balance with the floating pair. */
+.back-to-top{
+  position:fixed;
+  /* Center it horizontally between the two edge buttons */
+  right: 18px;
+  bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+  z-index: 119;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(242,215,134,.22), rgba(214,178,94,.09));
+  border: 1px solid rgba(214,178,94,.40);
+  box-shadow: 0 8px 28px rgba(0,0,0,.34), 0 0 0 1px rgba(214,178,94,.08);
+  color: var(--gold2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* Hidden by default — visible only after scrolling */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.88);
+  transition: opacity .28s ease, visibility 0s linear .28s,
+              transform .28s var(--ease-out-expo),
+              background .2s, box-shadow .2s;
+}
+.back-to-top--show{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition: opacity .28s ease, visibility 0s linear 0s,
+              transform .28s var(--ease-out-expo),
+              background .2s, box-shadow .2s;
+}
+.back-to-top:hover{
+  background: linear-gradient(145deg, rgba(242,215,134,.32), rgba(214,178,94,.14));
+  box-shadow: 0 12px 36px rgba(0,0,0,.38), 0 0 0 1px rgba(214,178,94,.20);
+  transform: translateY(-3px) scale(1.06);
+}
+.back-to-top:active{
+  transform: translateY(0) scale(0.96);
+}
+.back-to-top svg{
+  flex-shrink:0;
+  /* Subtle drop-shadow so the arrow reads clearly */
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.40));
+}
 /* FIX: Removed duplicate @keyframes fadeUp — canonical definition is in animations.css.
    Both files defined fadeUp with different translateY values (16px here vs 22px in
    animations.css), causing whichever loaded last to win — inconsistent motion. */
@@ -681,7 +840,7 @@ footer{
   .g7{grid-column: span 4; height: 220px;}
 }
 
-/* ≤ 1020px */
+/* ≤ 1020px — hero collapses to single column */
 @media (max-width: 1020px){
   .hero-grid{grid-template-columns: 1fr;}
   .cards-4{grid-template-columns: repeat(2, 1fr);}
@@ -700,6 +859,32 @@ footer{
   /* FIX: When hero collapses to single column, ensure the booking card fills the
      full width without overflowing on narrow tablet viewports */
   .hero-book-card{width: 100%; max-width: 100%; box-sizing: border-box;}
+
+  /* Mobile hero: optimised separately from desktop —
+     larger headline area, condensed spacing, booking card below the fold */
+  .hero{
+    min-height: 100svh; /* svh = small viewport height, accounts for mobile browser chrome */
+    padding: 36px 0 52px;
+    align-items: flex-start;
+  }
+  .hero__content{
+    padding-top: 12px;
+  }
+  /* Left text column gets more prominence on single-column layout */
+  .hero h1{
+    font-size: clamp(30px, 7.5vw, 52px);
+    line-height: 1.06;
+    margin-bottom: 14px;
+  }
+  .hero p{
+    font-size: 15.5px;
+    max-width: 100%;
+  }
+  /* Booking card: less padding, tighter layout on tablet */
+  .hero-book-card{
+    margin-top: 8px;
+    padding: 18px;
+  }
 }
 
 /* ≤ 820px */
@@ -719,7 +904,7 @@ footer{
   .team-grid{grid-template-columns: repeat(2, 1fr);}
 }
 
-/* ≤ 560px */
+/* ≤ 560px — full mobile optimization */
 @media (max-width: 560px){
   .cards-4{grid-template-columns: 1fr;}
   .grid-3{grid-template-columns: 1fr;}
@@ -732,41 +917,57 @@ footer{
   .gallery-grid{grid-template-columns: 1fr;}
   .form-grid{grid-template-columns: 1fr;}
   .form .form-grid{grid-template-columns: 1fr;}
-  .hero{padding: 30px 0 40px;}
+
+  /* Mobile hero: purpose-built layout, not a scaled-down desktop version.
+     Short viewport uses svh unit to account for browser chrome (address bar) */
+  .hero{
+    min-height: 100svh;
+    padding: 24px 0 36px;
+  }
+  .hero h1{
+    font-size: clamp(26px, 8vw, 38px);
+    letter-spacing: -.2px;
+  }
+  .hero p{
+    font-size: 15px;
+  }
+  /* Booking card is visually prominent on mobile — reduce internal stats area */
+  .hero-book-card{
+    padding: 16px;
+  }
+
   .btn{white-space:normal; line-height:1.25;}
   .hero__ctas .btn{flex: 1 1 100%; min-width:0;}
-  .hero h1{font-size: clamp(26px, 7vw, 42px);}
+  .hero__note{max-width: 100%;}
   .card__actions .btn{flex-basis:100%; min-width:0;}
   .form-actions .btn{min-width:0;}
   .newsletter .btn{width:100%;}
 
-  /* FIX: Floating button layout on mobile.
-     Chat widget stays bottom-left at 12px.
-     Sticky Book button sits bottom-right at 12px — same baseline as chat.
-     Both buttons are 54px tall → they align perfectly on the same row.
-     The old bottom:82px value placed it too high with no visual relationship
-     to the chat bubble, and partially hid the button off-screen on short viewports. */
+  /* Floating button layout on mobile (3 buttons: chat left, back-to-top center-right, book now right).
+     All sit on the same bottom baseline at 12px from the safe area edge. */
   .sticky-book{
     right: 12px;
     bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   }
-  /* FIX: On mobile the .btn inside sticky-book can become multi-line (white-space:normal
-     override above). Lock it to single-line pill to prevent a taller-than-expected button. */
   .sticky-book .btn{
     white-space: nowrap;
-    height: 54px;
-    padding: 0 16px;
+    height: 50px;
+    padding: 0 14px;
     font-size: 13px;
   }
   .chat-widget{
     left: 12px;
     bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   }
+  /* Back-to-top sits above the sticky-book row to avoid overlap */
+  .back-to-top{
+    right: 12px;
+    bottom: calc(74px + env(safe-area-inset-bottom, 0px));
+    width: 42px; height: 42px;
+  }
 
-  /* FIX: Give the footer enough bottom padding so content isn't hidden behind
-     both floating buttons. Chat (54px) + gap (12px) + bottom (12px) = 78px +
-     a generous buffer = 100px. */
-  footer{padding-bottom: 100px;}
+  /* Footer padding: accommodate all 3 floating buttons + safe area */
+  footer{padding-bottom: 110px;}
 
   .carousel__controls{justify-content:center;}
   .dots{margin-right:0;}
