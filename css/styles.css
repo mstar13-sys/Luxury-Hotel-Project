@@ -22,7 +22,14 @@
 }
 
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{
+  scroll-behavior:smooth;
+  /* FIX: Clamp horizontal scroll at the html level — the hero orb (.hero-orb--1 at
+     right:-60px, width:420px) and any translateX animations can push content
+     past the viewport. Setting overflow-x:hidden on both html+body is the
+     canonical two-layer fix required on iOS Safari where body alone is ignored. */
+  overflow-x: hidden;
+}
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
@@ -160,6 +167,9 @@ button{font-family: inherit;}
   display:none;
   position:absolute;
   left:0; right:0;
+  /* FIX: Explicit width:100% prevents the menu from being wider than the nav
+     container in edge cases where the nav uses contain:layout */
+  width: 100%;
   top: calc(var(--navH));
   padding: 18px 20px 26px;
   background: rgba(15,17,21,.94);
@@ -168,6 +178,8 @@ button{font-family: inherit;}
   transform: translateY(-12px);
   opacity: 0;
   transition: transform .3s var(--ease-out-expo), opacity .3s;
+  /* FIX: Prevent menu items from causing horizontal overflow */
+  overflow-x: hidden;
 }
 .mobile-menu--open{
   display:block;
@@ -192,6 +204,11 @@ button{font-family: inherit;}
   position:relative;
   display:flex;
   align-items:center;
+  /* FIX: Contain the decorative orbs — hero-orb--1 is 420px wide positioned at
+     right:-60px, extending 60px beyond the viewport edge and causing a horizontal
+     scrollbar. overflow:hidden clips it without affecting any descendant layout
+     because orbs are position:absolute inside this stacking context. */
+  overflow: hidden;
 }
 .hero__bg{
   position:absolute; inset:0;
@@ -556,17 +573,32 @@ section, footer, main{scroll-margin-top: calc(var(--navH) + 14px);}
 
 /* Sticky book CTA */
 .sticky-book{
-  position:fixed; right: 18px; bottom: 18px; z-index: 120;
+  position:fixed; right: 18px; z-index: 120;
+  /* FIX: Safe area support for notched devices (env() falls back to 18px on non-notched) */
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
   display:none;
   animation: fadeUp .3s var(--ease-out-expo);
 }
 .sticky-book--show{display:block;}
-/* FIXED: Single canonical @keyframes fadeUp (was duplicated in styles.css + animations.css) */
-@keyframes fadeUp{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);}}
+/* FIX: On desktop the sticky-book button inherits generic .btn padding which can
+   make it taller than the chat bubble. Lock it to the same 54×auto pill shape so
+   both buttons sit flush on the same bottom baseline. */
+.sticky-book .btn{
+  height: 54px;
+  padding: 0 20px;
+  border-radius: 18px;
+  white-space: nowrap;
+}
+/* FIX: Removed duplicate @keyframes fadeUp — canonical definition is in animations.css.
+   Both files defined fadeUp with different translateY values (16px here vs 22px in
+   animations.css), causing whichever loaded last to win — inconsistent motion. */
 
 /* Live chat */
 .chat-widget{
-  position:fixed; left: 18px; bottom: 18px; z-index: 130;
+  position:fixed; left: 18px; z-index: 130;
+  /* FIX: Use env(safe-area-inset-bottom) to respect the home indicator on
+     notched iOS devices. The calc adds the safe area on top of the base 18px. */
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
 }
 .chat-btn{
   width: 54px; height: 54px; border-radius: 18px;
@@ -627,6 +659,15 @@ footer{
 .toast{display:none;}
 .toast--show{display:block; animation: slideDown .3s var(--ease-out-expo);}
 @keyframes slideDown{from{opacity:0; transform:translateY(-8px);} to{opacity:1; transform:translateY(0);}}
+/* FIX: Ensure dynamically-created toast (#globalToast via JS) never causes
+   horizontal overflow. The JS sets max-width:calc(100vw-32px) already but
+   this acts as a CSS backstop. */
+#globalToast{
+  max-width: calc(100vw - 32px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  right: auto !important;
+}
 
 /* ────────────────────────────────────
    RESPONSIVE BREAKPOINTS
@@ -656,6 +697,9 @@ footer{
   .gallery-grid{grid-template-columns: repeat(2, 1fr);}
   .g1,.g2,.g3,.g4,.g5,.g6,.g7{grid-column:span 1; height: 200px;}
   .footer-grid{grid-template-columns: 1fr;}
+  /* FIX: When hero collapses to single column, ensure the booking card fills the
+     full width without overflowing on narrow tablet viewports */
+  .hero-book-card{width: 100%; max-width: 100%; box-sizing: border-box;}
 }
 
 /* ≤ 820px */
@@ -695,9 +739,35 @@ footer{
   .card__actions .btn{flex-basis:100%; min-width:0;}
   .form-actions .btn{min-width:0;}
   .newsletter .btn{width:100%;}
-  .sticky-book{right: 12px; bottom: 82px;}
-  .chat-widget{left: 12px; bottom: 12px;}
-  footer{padding-bottom: 124px;}
+
+  /* FIX: Floating button layout on mobile.
+     Chat widget stays bottom-left at 12px.
+     Sticky Book button sits bottom-right at 12px — same baseline as chat.
+     Both buttons are 54px tall → they align perfectly on the same row.
+     The old bottom:82px value placed it too high with no visual relationship
+     to the chat bubble, and partially hid the button off-screen on short viewports. */
+  .sticky-book{
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  /* FIX: On mobile the .btn inside sticky-book can become multi-line (white-space:normal
+     override above). Lock it to single-line pill to prevent a taller-than-expected button. */
+  .sticky-book .btn{
+    white-space: nowrap;
+    height: 54px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+  .chat-widget{
+    left: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* FIX: Give the footer enough bottom padding so content isn't hidden behind
+     both floating buttons. Chat (54px) + gap (12px) + bottom (12px) = 78px +
+     a generous buffer = 100px. */
+  footer{padding-bottom: 100px;}
+
   .carousel__controls{justify-content:center;}
   .dots{margin-right:0;}
   .brand__tag{display:none;}

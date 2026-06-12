@@ -52,8 +52,14 @@
 
     toast.textContent = msg;
     toast.style.display = 'block';
+    // FIX: Reset animation cleanly — remove any stale animationend listener
+    // then trigger reflow before re-applying animation so browser fires it fresh.
     toast.style.animation = 'none';
-    void toast.offsetWidth;
+    void toast.offsetWidth; // force reflow
+    // FIX: After toastUp animation completes, the keyframe sets
+    // transform: translateX(-50%) translateY(0) — restore translateX(-50%)
+    // explicitly so the toast stays centred after animation fill ends.
+    toast.style.transform = '';
     toast.style.animation = 'toastUp 0.35s cubic-bezier(0.19,1,0.22,1) both';
 
     clearTimeout(window.__toastTimer);

@@ -629,6 +629,8 @@
   z-index: 1;
   /* FIXED: will-change promotes to own layer, preventing repaint on main */
   will-change: transform;
+  /* FIX: Ensure orbs don't escape their parent container's clipping context */
+  overflow: hidden;
 }
 
 .hero-orb--1 {
